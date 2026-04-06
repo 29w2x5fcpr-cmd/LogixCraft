@@ -118,7 +118,9 @@ class MainWindow(QObject):
 
     def open_settings_dialog(self):
         dialog = SettingsDialog(
-            settings=self.settings, theme_manager=self.theme_manager, parent=self.window
+            settings=self.settings,
+            theme_manager=self.theme_manager,
+            parent=self.window,
         )
 
         if dialog.exec():
@@ -127,8 +129,9 @@ class MainWindow(QObject):
             theme = self.settings.get("appearance", "theme", default="dark")
 
             app = QApplication.instance()
-            if app:
+            if app is not None:
                 self.theme_manager.apply_theme(app, theme)
+                logger.info("Re-applied app theme after settings dialog: %s", theme)
 
             width = self.settings.get("window", "width", default=1200)
             height = self.settings.get("window", "height", default=800)
