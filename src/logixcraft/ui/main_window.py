@@ -7,13 +7,12 @@ from PySide6.QtWidgets import QLabel, QPushButton
 
 from logixcraft.core.config import APP_NAME, APP_VERSION, MAIN_WINDOW_UI
 from logixcraft.core.controller import AppController
-from logixcraft.core.settings import SettingsManager
 
 logger = logging.getLogger(__name__)
 
 
 class MainWindow:
-    def __init__(self, settings: SettingsManager) -> None:
+    def __init__(self, settings) -> None:
         self.settings = settings
 
         loader = QUiLoader()
@@ -30,8 +29,10 @@ class MainWindow:
             raise RuntimeError(f"Could not load UI file: {MAIN_WINDOW_UI}")
 
         self.window.setWindowTitle(f"{APP_NAME} v{APP_VERSION}")
-        self.window.closeEvent = self._on_close
-        self._apply_window_settings()
+
+        width = self.settings.get("window", "width", default=1200)
+        height = self.settings.get("window", "height", default=800)
+        self.window.resize(width, height)
 
         self.label_status = self.window.findChild(QLabel, "label_status")
         self.button_test = self.window.findChild(QPushButton, "button_test")
@@ -48,34 +49,14 @@ class MainWindow:
         self.action_test_tools.triggered.connect(self.on_test_tools_triggered)
 
         logger.info("Main window initialized")
-        logger.info("Menu action connected: action_test_tools")
-
-    def _apply_window_settings(self) -> None:
-        width = self.settings.get("window", "width", default=1200)
-        height = self.settings.get("window", "height", default=800)
-        self.window.resize(width, height)
-        logger.info("Applied window size: %sx%s", width, height)
 
     def on_test_clicked(self) -> None:
         result = self.controller.handle_test_button()
         self.label_status.setText(result)
-        logger.info("Test button clicked")
 
     def on_test_tools_triggered(self) -> None:
         result = self.controller.handle_test_button()
         self.label_status.setText(f"Menu triggered: {result}")
-        logger.info("Menu action triggered")
 
     def show(self) -> None:
-        logger.info("Showing main window")
         self.window.show()
-
-    def _on_close(self, event):
-        width = self.window.width()
-        height = self.window.height()
-
-        self.settings.set("window", "width", value=width)
-        self.settings.set("window", "height", value=height)
-
-        self.settings.save()
-        event.accept()
