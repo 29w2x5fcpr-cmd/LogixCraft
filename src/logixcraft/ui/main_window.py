@@ -3,10 +3,12 @@ import logging
 from PySide6.QtCore import QFile, QIODevice, QObject, QEvent
 from PySide6.QtGui import QAction
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QLabel, QPushButton
+from PySide6.QtWidgets import QLabel, QPushButton, QAction
 
 from logixcraft.core.config import APP_NAME, APP_VERSION, MAIN_WINDOW_UI
 from logixcraft.core.controller import AppController
+from logixcraft.core.theme import ThemeManager
+from logixcraft.ui.settings_dialog import SettingsDialog
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +17,7 @@ class MainWindow(QObject):
     def __init__(self, settings) -> None:
         super().__init__()
         self.settings = settings
-
+        self.theme_manager = ThemeManager()
         loader = QUiLoader()
         ui_file = QFile(str(MAIN_WINDOW_UI))
         self.controller = AppController()

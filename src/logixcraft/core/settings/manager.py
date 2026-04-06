@@ -75,3 +75,11 @@ class SettingsManager:
                 SettingsManager._deep_update(base[key], value)
             else:
                 base[key] = value
+
+    def reset_to_defaults(self) -> None:
+        self._settings = deepcopy(DEFAULT_SETTINGS)
+
+    def save_window_size(self, width: int, height: int) -> None:
+        self.set("window", "width", value=width)
+        self.set("window", "height", value=height)
+        self.save()
