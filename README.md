@@ -42,3 +42,26 @@ Licensing System (Planned)
 	•	Software activation keys
 	•	Hardware-based licensing
 	•	Anti-piracy protection
+
+## Running the Application
+
+### Using VS Code
+Use the built-in Run configuration:
+- Select "Run LogixCraft"
+- Press Run
+
+### Using terminal
+
+```bash
+set PYTHONPATH=src
+python -m logixcraft.main
+
+
+---
+
+## Commit it:
+
+```bat
+git add README.md
+git commit -m "Add run instructions to README"
+git push
