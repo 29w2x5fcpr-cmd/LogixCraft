@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QApplication
 
 from logixcraft.core.config import APP_NAME, APP_VERSION, LOGS_ROOT
 from logixcraft.core.logging_config import setup_logging
-from logixcraft.core.settings.manager import SettingsManager
+from logixcraft.core.settings import SettingsManager
 from logixcraft.ui.main_window import MainWindow
 
 

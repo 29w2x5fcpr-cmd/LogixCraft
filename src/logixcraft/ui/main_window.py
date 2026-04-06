@@ -47,7 +47,7 @@ class MainWindow:
 
         self.button_test.clicked.connect(self.on_test_clicked)
         self.action_test_tools.triggered.connect(self.on_test_tools_triggered)
-
+        self.window.closeEvent = self._on_close
         logger.info("Main window initialized")
 
     def on_test_clicked(self) -> None:
@@ -60,3 +60,14 @@ class MainWindow:
 
     def show(self) -> None:
         self.window.show()
+
+    def _on_close(self, event):
+        width = self.window.width()
+        height = self.window.height()
+
+        self.settings.set("window", "width", value=width)
+        self.settings.set("window", "height", value=height)
+
+        self.settings.save()
+
+        event.accept()
