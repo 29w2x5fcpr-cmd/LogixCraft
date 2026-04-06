@@ -94,23 +94,16 @@ class SettingsDialog(QDialog):
         self.settings.save()
         logger.info("All settings reset to defaults")
 
-    def reset_all_settings(self) -> None:
-        result = QMessageBox.question(
-            self,
-            "Reset All Settings",
-            "Reset all settings to default values?",
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No,
+    def reset_window_size(self) -> None:
+        self.settings.save_window_size(
+            DEFAULT_SETTINGS["window"]["width"],
+            DEFAULT_SETTINGS["window"]["height"],
         )
-        if result != QMessageBox.Yes:
-            return
 
-        self.settings.reset_to_defaults()
+        if self.parent() is not None:
+            self.parent().resize(
+                DEFAULT_SETTINGS["window"]["width"],
+                DEFAULT_SETTINGS["window"]["height"],
+            )
 
-        default_theme = self.settings.get("appearance", "theme", default="dark")
-        index = self.theme_combo.findText(default_theme)
-        if index >= 0:
-            self.theme_combo.setCurrentIndex(index)
-
-        self.settings.save()
-        logger.info("All settings reset to defaults")
+        logger.info("Window size reset to defaults")

@@ -50,7 +50,7 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <addaction name="actionPrefences"/>
+    <addaction name="actionPreferences"/>
    </widget>
    <addaction name="menuTools"/>
    <addaction name="menuSettings"/>
@@ -61,9 +61,9 @@
     <string>Test Tools</string>
    </property>
   </action>
-  <action name="actionPrefences">
+  <action name="actionPreferences">
    <property name="text">
-    <string>Prefences</string>
+    <string>Preferences</string>
    </property>
   </action>
  </widget>

@@ -42,19 +42,6 @@ class MainWindow(QObject):
         self.button_test = self.window.findChild(QPushButton, "button_test")
         self.action_test_tools = self.window.findChild(QAction, "action_test_tools")
 
-        self.menu_settings = self.window.findChild(QMenu, "menuSettings")
-        if self.menu_settings is None:
-            raise RuntimeError("Could not find QMenu 'menuSettings'")
-
-        self.action_preferences = None
-        for action in self.menu_settings.actions():
-            if action.objectName() == "actionPreferences":
-                self.action_preferences = action
-                break
-
-        if self.action_preferences is None:
-            raise RuntimeError("Could not find QAction 'actionPreferences' inside 'menuSettings'")
-
         if self.label_status is None:
             raise RuntimeError("Could not find QLabel with objectName 'label_status'")
         if self.button_test is None:
@@ -64,8 +51,43 @@ class MainWindow(QObject):
 
         self.button_test.clicked.connect(self.on_test_clicked)
         self.action_test_tools.triggered.connect(self.on_test_tools_triggered)
-        self.action_preferences.triggered.connect(self.open_settings_dialog)
+        self.menu_settings = self.window.findChild(QMenu, "menuSettings")
+        if self.menu_settings is None:
+            raise RuntimeError("Could not find QMenu 'menuSettings'")
 
+        logger.info(
+            "menuSettings actions: %s",
+            [(a.objectName(), a.text()) for a in self.menu_settings.actions()],
+        )
+
+        self.action_preferences = next(
+            (a for a in self.menu_settings.actions() if a.objectName() == "actionPreferences"),
+            None,
+        )
+
+        if self.action_preferences is None:
+            all_actions = self.window.findChildren(QAction)
+            logger.info(
+                "all window actions: %s",
+                [(a.objectName(), a.text()) for a in all_actions],
+            )
+
+            self.action_preferences = next(
+                (
+                    a
+                    for a in all_actions
+                    if a.objectName() == "actionPreferences"
+                    or a.text().replace("&", "") == "Preferences"
+                ),
+                None,
+            )
+
+        if self.action_preferences is None:
+            raise RuntimeError(
+                "Could not find QAction 'actionPreferences'. Check the QAction objectName in Qt Designer."
+            )
+
+        self.action_preferences.triggered.connect(self.open_settings_dialog)
         self.window.installEventFilter(self)
 
         logger.info("Main window initialized")
