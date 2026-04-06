@@ -13,5 +13,6 @@ DOCS_ROOT = PROJECT_ROOT / "docs"
 TESTS_ROOT = PROJECT_ROOT / "tests"
 TOOLS_ROOT = PROJECT_ROOT / "tools"
 BUILDS_ROOT = PROJECT_ROOT / "builds"
+LOGS_ROOT = PROJECT_ROOT / "logs"
 
 MAIN_WINDOW_UI = UI_ROOT / "main_window.ui"

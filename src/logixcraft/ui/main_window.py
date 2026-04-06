@@ -1,8 +1,12 @@
+import logging
+
 from PySide6.QtCore import QFile, QIODevice
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QLabel, QMainWindow, QPushButton
+from PySide6.QtWidgets import QLabel, QPushButton
 
-from logixcraft.core.config import APP_NAME, MAIN_WINDOW_UI
+from logixcraft.core.config import APP_NAME, APP_VERSION, MAIN_WINDOW_UI
+
+logger = logging.getLogger(__name__)
 
 
 class MainWindow:
@@ -19,7 +23,7 @@ class MainWindow:
         if self.window is None:
             raise RuntimeError(f"Could not load UI file: {MAIN_WINDOW_UI}")
 
-        self.window.setWindowTitle(APP_NAME)
+        self.window.setWindowTitle(f"{APP_NAME} v{APP_VERSION}")
 
         self.label_status = self.window.findChild(QLabel, "label_status")
         self.button_test = self.window.findChild(QPushButton, "button_test")
@@ -32,8 +36,12 @@ class MainWindow:
 
         self.button_test.clicked.connect(self.on_test_clicked)
 
+        logger.info("Main window initialized")
+
     def on_test_clicked(self) -> None:
         self.label_status.setText("Button clicked")
+        logger.info("Test button clicked")
 
     def show(self) -> None:
+        logger.info("Showing main window")
         self.window.show()
