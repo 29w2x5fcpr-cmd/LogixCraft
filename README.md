@@ -55,13 +55,3 @@ Use the built-in Run configuration:
 ```bash
 set PYTHONPATH=src
 python -m logixcraft.main
-
-
----
-
-## Commit it:
-
-```bat
-git add README.md
-git commit -m "Add run instructions to README"
-git push
