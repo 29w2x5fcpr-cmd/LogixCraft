@@ -1,6 +1,6 @@
 import logging
 
-from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtCore import QFile, QIODevice, QObject, QEvent
 from PySide6.QtGui import QAction
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QLabel, QPushButton
@@ -11,8 +11,9 @@ from logixcraft.core.controller import AppController
 logger = logging.getLogger(__name__)
 
 
-class MainWindow:
+class MainWindow(QObject):
     def __init__(self, settings) -> None:
+        super().__init__()
         self.settings = settings
 
         loader = QUiLoader()
@@ -47,8 +48,24 @@ class MainWindow:
 
         self.button_test.clicked.connect(self.on_test_clicked)
         self.action_test_tools.triggered.connect(self.on_test_tools_triggered)
-        self.window.closeEvent = self._on_close
+
+        # Reliable close interception
+        self.window.installEventFilter(self)
+
         logger.info("Main window initialized")
+
+    def eventFilter(self, obj, event):
+        if obj == self.window and event.type() == QEvent.Close:
+            width = self.window.width()
+            height = self.window.height()
+
+            self.settings.set("window", "width", value=width)
+            self.settings.set("window", "height", value=height)
+            self.settings.save()
+
+            logger.info("Saved window size: %sx%s", width, height)
+
+        return super().eventFilter(obj, event)
 
     def on_test_clicked(self) -> None:
         result = self.controller.handle_test_button()
@@ -60,14 +77,3 @@ class MainWindow:
 
     def show(self) -> None:
         self.window.show()
-
-    def _on_close(self, event):
-        width = self.window.width()
-        height = self.window.height()
-
-        self.settings.set("window", "width", value=width)
-        self.settings.set("window", "height", value=height)
-
-        self.settings.save()
-
-        event.accept()

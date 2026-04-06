@@ -16,7 +16,7 @@ def run() -> int:
 
     settings = SettingsManager()
     settings.load()
-
+    print(settings.data)
     app = QApplication(sys.argv)
     app.setApplicationName(APP_NAME)
     app.setApplicationVersion(APP_VERSION)
