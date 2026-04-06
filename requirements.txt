@@ -1,4 +1,17 @@
+black==26.3.1
+click==8.3.2
+colorama==0.4.6
+iniconfig==2.3.0
+mypy_extensions==1.1.0
+packaging==26.0
+pathspec==1.0.4
+platformdirs==4.9.4
+pluggy==1.6.0
+Pygments==2.20.0
 PySide6==6.11.0
 PySide6_Addons==6.11.0
 PySide6_Essentials==6.11.0
+pytest==9.0.2
+pytokens==0.4.1
+ruff==0.15.9
 shiboken6==6.11.0
