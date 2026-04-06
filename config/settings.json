@@ -1,0 +1,13 @@
+{
+    "appearance": {
+        "theme": "dark",
+        "ui_scale": 1.0
+    },
+    "window": {
+        "width": 1200,
+        "height": 800
+    },
+    "general": {
+        "restore_last_window_size": true
+    }
+}

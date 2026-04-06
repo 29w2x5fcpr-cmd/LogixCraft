@@ -15,4 +15,7 @@ TOOLS_ROOT = PROJECT_ROOT / "tools"
 BUILDS_ROOT = PROJECT_ROOT / "builds"
 LOGS_ROOT = PROJECT_ROOT / "logs"
 
+CONFIG_ROOT = PROJECT_ROOT / "config"
+SETTINGS_FILE = CONFIG_ROOT / "settings.json"
+
 MAIN_WINDOW_UI = UI_ROOT / "main_window.ui"
