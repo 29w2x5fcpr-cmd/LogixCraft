@@ -1,11 +1,11 @@
 import logging
 
 from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtGui import QAction
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QLabel, QPushButton
 
 from logixcraft.core.config import APP_NAME, APP_VERSION, MAIN_WINDOW_UI
-
 from logixcraft.core.controller import AppController
 
 logger = logging.getLogger(__name__)
@@ -16,6 +16,7 @@ class MainWindow:
         loader = QUiLoader()
         ui_file = QFile(str(MAIN_WINDOW_UI))
         self.controller = AppController()
+
         if not ui_file.open(QIODevice.ReadOnly):
             raise RuntimeError(f"Could not open UI file: {MAIN_WINDOW_UI}")
 
@@ -29,6 +30,7 @@ class MainWindow:
 
         self.label_status = self.window.findChild(QLabel, "label_status")
         self.button_test = self.window.findChild(QPushButton, "button_test")
+        self.action_test_tools = self.window.findChild(QAction, "action_test_tools")
 
         if self.label_status is None:
             raise RuntimeError("Could not find QLabel with objectName 'label_status'")
@@ -36,13 +38,24 @@ class MainWindow:
         if self.button_test is None:
             raise RuntimeError("Could not find QPushButton with objectName 'button_test'")
 
+        if self.action_test_tools is None:
+            raise RuntimeError("Could not find QAction with objectName 'action_test_tools'")
+
         self.button_test.clicked.connect(self.on_test_clicked)
+        self.action_test_tools.triggered.connect(self.on_test_tools_triggered)
 
         logger.info("Main window initialized")
+        logger.info("Menu action connected: action_test_tools")
 
     def on_test_clicked(self) -> None:
         result = self.controller.handle_test_button()
         self.label_status.setText(result)
+        logger.info("Test button clicked")
+
+    def on_test_tools_triggered(self) -> None:
+        result = self.controller.handle_test_button()
+        self.label_status.setText(f"Menu triggered: {result}")
+        logger.info("Menu action triggered")
 
     def show(self) -> None:
         logger.info("Showing main window")

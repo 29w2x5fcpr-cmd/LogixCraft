@@ -44,12 +44,12 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionTest_Tools"/>
+    <addaction name="action_test_tools"/>
    </widget>
    <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionTest_Tools">
+  <action name="action_test_tools">
    <property name="text">
     <string>Test Tools</string>
    </property>
