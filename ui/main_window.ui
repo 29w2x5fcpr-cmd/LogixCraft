@@ -46,12 +46,24 @@
     </property>
     <addaction name="action_test_tools"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionPrefences"/>
+   </widget>
    <addaction name="menuTools"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_test_tools">
    <property name="text">
     <string>Test Tools</string>
+   </property>
+  </action>
+  <action name="actionPrefences">
+   <property name="text">
+    <string>Prefences</string>
    </property>
   </action>
  </widget>

@@ -3,7 +3,7 @@ import logging
 from PySide6.QtCore import QFile, QIODevice, QObject, QEvent
 from PySide6.QtGui import QAction
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QLabel, QPushButton, QAction
+from PySide6.QtWidgets import QLabel, QPushButton, QMenu
 
 from logixcraft.core.config import APP_NAME, APP_VERSION, MAIN_WINDOW_UI
 from logixcraft.core.controller import AppController
@@ -18,6 +18,7 @@ class MainWindow(QObject):
         super().__init__()
         self.settings = settings
         self.theme_manager = ThemeManager()
+
         loader = QUiLoader()
         ui_file = QFile(str(MAIN_WINDOW_UI))
         self.controller = AppController()
@@ -41,6 +42,19 @@ class MainWindow(QObject):
         self.button_test = self.window.findChild(QPushButton, "button_test")
         self.action_test_tools = self.window.findChild(QAction, "action_test_tools")
 
+        self.menu_settings = self.window.findChild(QMenu, "menuSettings")
+        if self.menu_settings is None:
+            raise RuntimeError("Could not find QMenu 'menuSettings'")
+
+        self.action_preferences = None
+        for action in self.menu_settings.actions():
+            if action.objectName() == "actionPreferences":
+                self.action_preferences = action
+                break
+
+        if self.action_preferences is None:
+            raise RuntimeError("Could not find QAction 'actionPreferences' inside 'menuSettings'")
+
         if self.label_status is None:
             raise RuntimeError("Could not find QLabel with objectName 'label_status'")
         if self.button_test is None:
@@ -50,8 +64,8 @@ class MainWindow(QObject):
 
         self.button_test.clicked.connect(self.on_test_clicked)
         self.action_test_tools.triggered.connect(self.on_test_tools_triggered)
+        self.action_preferences.triggered.connect(self.open_settings_dialog)
 
-        # Reliable close interception
         self.window.installEventFilter(self)
 
         logger.info("Main window initialized")
@@ -79,3 +93,21 @@ class MainWindow(QObject):
 
     def show(self) -> None:
         self.window.show()
+
+    def open_settings_dialog(self):
+        dialog = SettingsDialog(
+            settings=self.settings, theme_manager=self.theme_manager, parent=self.window
+        )
+
+        if dialog.exec():
+            from PySide6.QtWidgets import QApplication
+
+            theme = self.settings.get("appearance", "theme", default="dark")
+
+            app = QApplication.instance()
+            if app:
+                self.theme_manager.apply_theme(app, theme)
+
+            width = self.settings.get("window", "width", default=1200)
+            height = self.settings.get("window", "height", default=800)
+            self.window.resize(width, height)
