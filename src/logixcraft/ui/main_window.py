@@ -1,7 +1,9 @@
 import logging
 
+from pathlib import Path
+
 from PySide6.QtCore import QFile, QIODevice, QObject, QEvent
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QIcon
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QLabel, QPushButton, QMenu
 
@@ -48,6 +50,9 @@ class MainWindow(QObject):
             raise RuntimeError("Could not find QPushButton with objectName 'button_test'")
         if self.action_test_tools is None:
             raise RuntimeError("Could not find QAction with objectName 'action_test_tools'")
+
+        base_dir = Path(__file__).resolve().parents[1]
+        app_icon = base_dir / "assets" / "icons" / "app" / "app.ico"
 
         self.button_test.clicked.connect(self.on_test_clicked)
         self.action_test_tools.triggered.connect(self.on_test_tools_triggered)

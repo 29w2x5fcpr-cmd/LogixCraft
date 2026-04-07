@@ -1,7 +1,10 @@
 import logging
 import sys
 
+from pathlib import Path
+
 from PySide6.QtWidgets import QApplication
+from PySide6.QtGui import QIcon
 
 from logixcraft.core.config import APP_NAME, APP_VERSION, LOGS_ROOT
 from logixcraft.core.logging_config import setup_logging
@@ -29,6 +32,10 @@ def run() -> int:
     theme_name = settings.get("appearance", "theme", default="dark")
 
     theme_manager.apply_theme(app, theme_name)
+
+    base_dir = Path(__file__).resolve().parent
+    app_icon = base_dir / "assets" / "icons" / "app" / "app.ico"
+    app.setWindowIcon(QIcon(str(app_icon)))
 
     # Create main window
     window = MainWindow(settings=settings)
