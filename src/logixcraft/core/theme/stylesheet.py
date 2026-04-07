@@ -1,6 +1,11 @@
 def build_stylesheet(theme: dict) -> str:
     return f"""
-    QWidget {{
+    QMainWindow {{
+        background-color: {theme["bg_app"]};
+        color: {theme["text_primary"]};
+    }}
+
+    QWidget#centralWidget {{
         background-color: {theme["bg_app"]};
         color: {theme["text_primary"]};
     }}
@@ -8,10 +13,13 @@ def build_stylesheet(theme: dict) -> str:
     QFrame#headerContainer,
     QFrame#sidebarContainer {{
         background-color: {theme["bg_panel"]};
+        color: {theme["text_primary"]};
     }}
 
-    QWidget#contentContainer {{
+    QWidget#contentContainer,
+    QStackedWidget#mainStack {{
         background-color: {theme["bg_content"]};
+        color: {theme["text_primary"]};
     }}
 
     QFrame#headerContainer {{
@@ -22,10 +30,17 @@ def build_stylesheet(theme: dict) -> str:
         border-right: 1px solid {theme["border"]};
     }}
 
+    QStackedWidget#sidebarStack,
+    QWidget#page_sidebar_plc {{
+        background-color: {theme["bg_panel"]};
+        border: none;
+    }}
+
     QLabel#headerTitleLabel,
     QLabel#pageTitleLabel {{
         color: {theme["text_primary"]};
         font-weight: 600;
+        background-color: transparent;
     }}
 
     QPushButton {{
