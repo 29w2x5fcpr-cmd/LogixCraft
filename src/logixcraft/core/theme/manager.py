@@ -1,33 +1,23 @@
-import logging
-from pathlib import Path
-
-from PySide6.QtWidgets import QApplication
-
-from logixcraft.core.config import UI_ROOT
-
-logger = logging.getLogger(__name__)
+from logixcraft.core.theme.themes import LIGHT_THEME, DARK_THEME
+from logixcraft.core.theme.stylesheet import build_stylesheet
 
 
 class ThemeManager:
     def __init__(self) -> None:
-        self.themes_dir = UI_ROOT / "themes"
+        self._themes = {
+            "light": LIGHT_THEME,
+            "dark": DARK_THEME,
+        }
 
-    def apply_theme(self, app: QApplication, theme_name: str) -> None:
-        theme_file = self.themes_dir / f"{theme_name}.qss"
+    def apply_theme(self, app, theme_name: str) -> None:
+        theme = self._themes.get(theme_name, LIGHT_THEME)
+        app.setStyleSheet(build_stylesheet(theme))
 
-        if not theme_file.exists():
-            logger.warning("Theme file not found: %s", theme_file)
-            app.setStyleSheet("")
-            return
-
-        stylesheet = theme_file.read_text(encoding="utf-8")
-        app.setStyleSheet(stylesheet)
-        logger.info("Applied theme: %s", theme_name)
-
-    def theme_exists(self, theme_name: str) -> bool:
-        return (self.themes_dir / f"{theme_name}.qss").exists()
+    def get_theme(self, theme_name: str) -> dict:
+        return self._themes.get(theme_name, LIGHT_THEME)
 
     def available_themes(self) -> list[str]:
-        if not self.themes_dir.exists():
-            return []
-        return sorted(path.stem for path in self.themes_dir.glob("*.qss"))
+        return list(self._themes.keys())
+
+    def has_theme(self, theme_name: str) -> bool:
+        return theme_name in self._themes
