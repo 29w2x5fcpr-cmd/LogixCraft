@@ -40,22 +40,9 @@ class MainWindow(QObject):
         height = self.settings.get("window", "height", default=800)
         self.window.resize(width, height)
 
-        self.label_status = self.window.findChild(QLabel, "label_status")
-        self.button_test = self.window.findChild(QPushButton, "button_test")
-        self.action_test_tools = self.window.findChild(QAction, "action_test_tools")
-
-        if self.label_status is None:
-            raise RuntimeError("Could not find QLabel with objectName 'label_status'")
-        if self.button_test is None:
-            raise RuntimeError("Could not find QPushButton with objectName 'button_test'")
-        if self.action_test_tools is None:
-            raise RuntimeError("Could not find QAction with objectName 'action_test_tools'")
-
         base_dir = Path(__file__).resolve().parents[1]
         app_icon = base_dir / "assets" / "icons" / "app" / "app.ico"
 
-        self.button_test.clicked.connect(self.on_test_clicked)
-        self.action_test_tools.triggered.connect(self.on_test_tools_triggered)
         self.menu_settings = self.window.findChild(QMenu, "menuSettings")
         if self.menu_settings is None:
             raise RuntimeError("Could not find QMenu 'menuSettings'")
@@ -109,14 +96,6 @@ class MainWindow(QObject):
             logger.info("Saved window size: %sx%s", width, height)
 
         return super().eventFilter(obj, event)
-
-    def on_test_clicked(self) -> None:
-        result = self.controller.handle_test_button()
-        self.label_status.setText(result)
-
-    def on_test_tools_triggered(self) -> None:
-        result = self.controller.handle_test_button()
-        self.label_status.setText(f"Menu triggered: {result}")
 
     def show(self) -> None:
         self.window.show()
