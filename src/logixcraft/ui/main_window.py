@@ -5,7 +5,7 @@ from pathlib import Path
 from PySide6.QtCore import QFile, QIODevice, QObject, QEvent
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QLabel, QPushButton, QMenu
+from PySide6.QtWidgets import QLabel, QPushButton, QMenu, QStatusBar
 
 from logixcraft.core.config import APP_NAME, APP_VERSION, MAIN_WINDOW_UI
 from logixcraft.core.controller import AppController
@@ -78,6 +78,11 @@ class MainWindow(QObject):
             raise RuntimeError(
                 "Could not find QAction 'actionPreferences'. Check the QAction objectName in Qt Designer."
             )
+
+        self.status_bar = self.window.findChild(QStatusBar, "statusbar")
+        print("statusbar:", self.status_bar)
+        if self.status_bar is not None:
+            self.status_bar.showMessage("Ready")
 
         self.action_preferences.triggered.connect(self.open_settings_dialog)
         self.window.installEventFilter(self)
