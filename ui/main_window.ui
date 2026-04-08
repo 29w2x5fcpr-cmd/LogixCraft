@@ -154,7 +154,7 @@
              <property name="autoFillBackground">
               <bool>false</bool>
              </property>
-             <widget class="QWidget" name="page_3"/>
+             <widget class="QWidget" name="page_sidebar_home"/>
              <widget class="QWidget" name="page_4"/>
             </widget>
            </item>
@@ -176,7 +176,103 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <widget class="QWidget" name="page"/>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="page_main_home">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <property name="sizeConstraint">
+                <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+               </property>
+               <property name="leftMargin">
+                <number>1</number>
+               </property>
+               <property name="topMargin">
+                <number>1</number>
+               </property>
+               <property name="rightMargin">
+                <number>1</number>
+               </property>
+               <property name="bottomMargin">
+                <number>1</number>
+               </property>
+               <item>
+                <widget class="QWidget" name="widget" native="true">
+                 <layout class="QVBoxLayout" name="verticalLayout_2">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QWidget" name="top_widget" native="true"/>
+                  </item>
+                  <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                   <widget class="QFrame" name="frame">
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::NoFrame</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Shadow::Raised</enum>
+                    </property>
+                    <property name="lineWidth">
+                     <number>5</number>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_4">
+                     <property name="spacing">
+                      <number>0</number>
+                     </property>
+                     <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+                      <widget class="QLabel" name="homeImage">
+                       <property name="frameShape">
+                        <enum>QFrame::Shape::Panel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Shadow::Raised</enum>
+                       </property>
+                       <property name="lineWidth">
+                        <number>2</number>
+                       </property>
+                       <property name="text">
+                        <string>homeImage</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="bottom_widget" native="true">
+                    <layout class="QHBoxLayout" name="horizontalLayout">
+                     <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignBottom">
+                      <widget class="QLabel" name="homeAuthor">
+                       <property name="text">
+                        <string>Jakub H. Rembisz</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item alignment="Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignBottom">
+                      <widget class="QLabel" name="homeAppVersion">
+                       <property name="text">
+                        <string>App Version</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
              <widget class="QWidget" name="page_2"/>
             </widget>
            </item>

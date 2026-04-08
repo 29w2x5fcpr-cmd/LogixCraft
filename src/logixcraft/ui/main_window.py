@@ -2,8 +2,8 @@ import logging
 
 from pathlib import Path
 
-from PySide6.QtCore import QFile, QIODevice, QObject, QEvent
-from PySide6.QtGui import QAction, QIcon
+from PySide6.QtCore import QFile, QIODevice, QObject, QEvent, Qt
+from PySide6.QtGui import QAction, QIcon, QPixmap
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QLabel, QPushButton, QMenu, QStatusBar
 
@@ -84,6 +84,19 @@ class MainWindow(QObject):
         if self.status_bar is not None:
             self.status_bar.showMessage("Ready")
 
+        self.homeImage = self.window.findChild(QLabel, "homeImage")
+        self.homeTitle = self.window.findChild(QLabel, "homeTitle")
+        self.homeAppVersion = self.window.findChild(QLabel, "homeAppVersion")
+
+        self.homeAppVersion.setText(f"v{APP_VERSION}")
+
+        base_dir = Path(__file__).resolve().parents[1]
+        image_path = base_dir / "assets" / "icons" / "app" / "logo.png"
+
+        pixmap = QPixmap(str(image_path))
+        self.homeImage.setPixmap(
+            pixmap.scaled(600, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        )
         self.action_preferences.triggered.connect(self.open_settings_dialog)
         self.window.installEventFilter(self)
 
