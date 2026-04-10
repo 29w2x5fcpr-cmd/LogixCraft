@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 
 from PySide6.QtCore import QFile, QIODevice, QObject, QEvent, Qt
-from PySide6.QtGui import QAction, QIcon, QPixmap
+from PySide6.QtGui import QAction, QIcon, QPixmap, QFontDatabase, QFont
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QLabel, QPushButton, QMenu, QStatusBar
 
@@ -99,7 +99,12 @@ class MainWindow(QObject):
         self.homeAppVersion.setText(f"v{APP_VERSION}")
 
         image_path = ASSETS_ROOT / "icons" / "app" / "logo.png"
-        self.ui.btnHome.setIcon(QIcon(str(NAV_BUTTONS / "home.svg")))
+
+        btn_home = self.window.findChild(QPushButton, "btnHome")
+        if btn_home is None:
+            raise RuntimeError("Could not find QPushButton 'btnHome'")
+
+        btn_home.setIcon(QIcon(str(NAV_BUTTONS / "home_filled.svg")))
 
         pixmap = QPixmap(str(image_path))
         self.homeImage.setPixmap(
@@ -109,6 +114,16 @@ class MainWindow(QObject):
         self.window.installEventFilter(self)
 
         logger.info("Main window initialized")
+        font_path = ASSETS_ROOT / "fonts" / "Inter" / "Inter-Italic-VariableFont_opsz,wght.ttf"
+        font_id = QFontDatabase.addApplicationFont(str(font_path))
+
+        if font_id == -1:
+            print(f"Failed to load font: {font_path}")
+        else:
+            families = QFontDatabase.applicationFontFamilies(font_id)
+            print("Loaded font families:", families)
+            if families:
+                app.setFont(QFont(families[0], 10))
 
     def eventFilter(self, obj, event):
         if obj == self.window and event.type() == QEvent.Close:
