@@ -7,7 +7,15 @@ from PySide6.QtGui import QAction, QIcon, QPixmap
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QLabel, QPushButton, QMenu, QStatusBar
 
-from logixcraft.core.config import APP_NAME, APP_VERSION, MAIN_WINDOW_UI
+from logixcraft.core.config import (
+    APP_NAME,
+    APP_VERSION,
+    PROJECT_ROOT,
+    ASSETS_ROOT,
+    ICONS_ROOT,
+    MAIN_WINDOW_UI,
+    NAV_BUTTONS,
+)
 from logixcraft.core.controller import AppController
 from logixcraft.core.theme import ThemeManager
 from logixcraft.ui.settings_dialog import SettingsDialog
@@ -90,8 +98,8 @@ class MainWindow(QObject):
 
         self.homeAppVersion.setText(f"v{APP_VERSION}")
 
-        base_dir = Path(__file__).resolve().parents[1]
-        image_path = base_dir / "assets" / "icons" / "app" / "logo.png"
+        image_path = ASSETS_ROOT / "icons" / "app" / "logo.png"
+        self.ui.btnHome.setIcon(QIcon(str(NAV_BUTTONS / "home.svg")))
 
         pixmap = QPixmap(str(image_path))
         self.homeImage.setPixmap(

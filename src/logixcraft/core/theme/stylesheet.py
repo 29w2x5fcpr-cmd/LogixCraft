@@ -58,8 +58,6 @@ def build_stylesheet(theme: dict) -> str:
     QPushButton[active="true"] {{
         background-color: {theme["bg_button_active"]};
     }}
-
-
     QLabel#homeImage {{
         background: transparent;
     }}    

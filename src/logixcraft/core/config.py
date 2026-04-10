@@ -17,3 +17,7 @@ CONFIG_ROOT = PROJECT_ROOT / "config"
 SETTINGS_FILE = CONFIG_ROOT / "settings.json"
 
 MAIN_WINDOW_UI = UI_ROOT / "main_window.ui"
+
+ICONS_ROOT = ASSETS_ROOT / "icons"
+FONTS_ROOT = ASSETS_ROOT / "fonts"
+NAV_BUTTONS = ICONS_ROOT / "nav_buttons"
