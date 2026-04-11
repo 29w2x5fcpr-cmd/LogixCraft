@@ -65,5 +65,15 @@ def build_stylesheet(theme: dict) -> str:
     }}
     QLabel#homeImage {{
         background: transparent;
-    }}    
+    }}  
+    QPushButton#btnHomeIcon {{
+    background-color: white;
+    color: black;
+    min-width: 30px;
+    max-width: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    border-radius: 15px;
+    padding: 0px;
+    }}   
     """

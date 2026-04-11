@@ -48,8 +48,6 @@ class MainWindow(QObject):
         height = self.settings.get("window", "height", default=800)
         self.window.resize(width, height)
 
-        app_icon = ICONS_ROOT / "app" / "logo_symbol.png"
-        self.setWindowIcon(QIcon(app_icon))
         self.menu_settings = self.window.findChild(QMenu, "menuSettings")
         if self.menu_settings is None:
             raise RuntimeError("Could not find QMenu 'menuSettings'")
@@ -94,10 +92,14 @@ class MainWindow(QObject):
         self.homeImage = self.window.findChild(QLabel, "homeImage")
         self.homeTitle = self.window.findChild(QLabel, "homeTitle")
         self.homeAppVersion = self.window.findChild(QLabel, "homeAppVersion")
+        self.btnHomeIcon = self.window.findChild(QPushButton, "btnHome")
 
         self.homeAppVersion.setText(f"v{APP_VERSION}")
 
         image_path = ASSETS_ROOT / "icons" / "app" / "logo.png"
+
+        self.btnHomeIcon.setText("")
+        self.btnHomeIcon.setIcon(QIcon(ASSETS_ROOT / "icons" / "app" / "logo_symbol.png"))
 
         pixmap = QPixmap(str(image_path))
         self.homeImage.setPixmap(

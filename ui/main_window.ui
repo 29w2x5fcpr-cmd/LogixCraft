@@ -88,34 +88,81 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
        <property name="leftMargin">
-        <number>9</number>
+        <number>1</number>
        </property>
        <property name="topMargin">
-        <number>5</number>
+        <number>1</number>
        </property>
-       <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop">
-        <widget class="QPushButton" name="btnHome">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>40</height>
-          </size>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QFrame" name="navBarFrame">
+         <property name="frameShape">
+          <enum>QFrame::Shape::StyledPanel</enum>
          </property>
-         <property name="whatsThis">
-          <string extracomment="Home Button"/>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
-         <property name="accessibleDescription">
-          <string extracomment="Home Button">Home Button</string>
-         </property>
-         <property name="accessibleIdentifier">
-          <string extracomment="Home Button"/>
-         </property>
-         <property name="text">
-          <string>Home</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="leftMargin">
+           <number>1</number>
+          </property>
+          <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter">
+           <widget class="QPushButton" name="btnHome">
+            <property name="minimumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="whatsThis">
+             <string extracomment="Home Button"/>
+            </property>
+            <property name="accessibleDescription">
+             <string extracomment="Home Button">Home Button</string>
+            </property>
+            <property name="accessibleIdentifier">
+             <string extracomment="Home Button"/>
+            </property>
+            <property name="text">
+             <string>Home</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnPLC">
+            <property name="text">
+             <string>PLC</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter">
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>PushButton</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>

@@ -42,8 +42,7 @@ def run() -> int:
 
     theme_manager.apply_theme(app, theme_name)
 
-    base_dir = Path(__file__).resolve().parent
-    app_icon = base_dir / "assets" / "icons" / "app" / "app.ico"
+    app_icon = ICONS_ROOT / "app" / "logo_symbol.png"
     app.setWindowIcon(QIcon(str(app_icon)))
 
     # Create main window
