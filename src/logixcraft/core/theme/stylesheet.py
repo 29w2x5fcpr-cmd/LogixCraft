@@ -58,22 +58,17 @@ def build_stylesheet(theme: dict) -> str:
     QPushButton[active="true"] {{
         background-color: {theme["bg_button_active"]};
     }}
-    QPushButton#btnHome {{
-        font-family: "Inter";
-        font-size: 9pt;
-        font-weight: 700;
-    }}
+
     QLabel#homeImage {{
         background: transparent;
     }}  
-    QPushButton#btnHomeIcon {{
+    QPushButton#btnHome {{
     background-color: white;
     color: black;
-    min-width: 30px;
-    max-width: 30px;
-    min-height: 30px;
-    max-height: 30px;
-    border-radius: 15px;
-    padding: 0px;
+    border-radius: 16px;
+    padding: 8px 14px;
     }}   
+    QPushButton#BtnHome:hover {{
+        background-color: #e6e6e6;
+    }}  
     """

@@ -92,6 +92,7 @@ class MainWindow(QObject):
         self.homeImage = self.window.findChild(QLabel, "homeImage")
         self.homeTitle = self.window.findChild(QLabel, "homeTitle")
         self.homeAppVersion = self.window.findChild(QLabel, "homeAppVersion")
+
         self.btnHomeIcon = self.window.findChild(QPushButton, "btnHome")
 
         self.homeAppVersion.setText(f"v{APP_VERSION}")
@@ -99,7 +100,7 @@ class MainWindow(QObject):
         image_path = ASSETS_ROOT / "icons" / "app" / "logo.png"
 
         self.btnHomeIcon.setText("")
-        self.btnHomeIcon.setIcon(QIcon(ASSETS_ROOT / "icons" / "app" / "logo_symbol.png"))
+        self.btnHomeIcon.setIcon(QIcon(str(ASSETS_ROOT / "icons" / "app" / "logo_symbol.png")))
 
         pixmap = QPixmap(str(image_path))
         self.homeImage.setPixmap(
