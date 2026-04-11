@@ -4,13 +4,22 @@ import sys
 from pathlib import Path
 
 from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QIcon
-
+from PySide6.QtGui import QAction, QIcon, QPixmap, QFontDatabase, QFont
 from logixcraft.core.config import APP_NAME, APP_VERSION, LOGS_ROOT
 from logixcraft.core.logging_config import setup_logging
 from logixcraft.core.settings import SettingsManager
 from logixcraft.core.theme import ThemeManager
 from logixcraft.ui.main_window import MainWindow
+
+from logixcraft.core.config import (
+    APP_NAME,
+    APP_VERSION,
+    PROJECT_ROOT,
+    ASSETS_ROOT,
+    ICONS_ROOT,
+    MAIN_WINDOW_UI,
+    NAV_BUTTONS,
+)
 
 
 def run() -> int:

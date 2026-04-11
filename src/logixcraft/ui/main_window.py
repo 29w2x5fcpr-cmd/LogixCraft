@@ -48,9 +48,8 @@ class MainWindow(QObject):
         height = self.settings.get("window", "height", default=800)
         self.window.resize(width, height)
 
-        base_dir = Path(__file__).resolve().parents[1]
-        app_icon = base_dir / "assets" / "icons" / "app" / "app.ico"
-
+        app_icon = ICONS_ROOT / "app" / "logo_symbol.png"
+        self.setWindowIcon(QIcon(app_icon))
         self.menu_settings = self.window.findChild(QMenu, "menuSettings")
         if self.menu_settings is None:
             raise RuntimeError("Could not find QMenu 'menuSettings'")
@@ -100,12 +99,6 @@ class MainWindow(QObject):
 
         image_path = ASSETS_ROOT / "icons" / "app" / "logo.png"
 
-        btn_home = self.window.findChild(QPushButton, "btnHome")
-        if btn_home is None:
-            raise RuntimeError("Could not find QPushButton 'btnHome'")
-
-        btn_home.setIcon(QIcon(str(NAV_BUTTONS / "home_filled.svg")))
-
         pixmap = QPixmap(str(image_path))
         self.homeImage.setPixmap(
             pixmap.scaled(600, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)
@@ -114,16 +107,6 @@ class MainWindow(QObject):
         self.window.installEventFilter(self)
 
         logger.info("Main window initialized")
-        font_path = ASSETS_ROOT / "fonts" / "Inter" / "Inter-Italic-VariableFont_opsz,wght.ttf"
-        font_id = QFontDatabase.addApplicationFont(str(font_path))
-
-        if font_id == -1:
-            print(f"Failed to load font: {font_path}")
-        else:
-            families = QFontDatabase.applicationFontFamilies(font_id)
-            print("Loaded font families:", families)
-            if families:
-                app.setFont(QFont(families[0], 10))
 
     def eventFilter(self, obj, event):
         if obj == self.window and event.type() == QEvent.Close:

@@ -101,8 +101,20 @@
            <height>40</height>
           </size>
          </property>
+         <property name="whatsThis">
+          <string extracomment="Home Button"/>
+         </property>
+         <property name="accessibleDescription">
+          <string extracomment="Home Button">Home Button</string>
+         </property>
+         <property name="accessibleIdentifier">
+          <string extracomment="Home Button"/>
+         </property>
          <property name="text">
           <string>Home</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
