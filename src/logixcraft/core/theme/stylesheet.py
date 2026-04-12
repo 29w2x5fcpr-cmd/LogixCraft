@@ -76,9 +76,39 @@ def build_stylesheet(theme: dict) -> str:
     padding: 0px;
     }}   
     QPushButton#btnHome:hover {{
-        background-color: #e6e6e6;
+        background-color: rgba(0, 0, 0, 0.05);
     }} 
     QPushButton#btnHome:pressed {{
-        background-color: #d0d0d0;
+        background-color: rgba(0, 0, 0, 0.1);
+    }}
+    QPushButton[active="true"] {{
+        background-color: #2c2c2c;
+        color: white;
+        border: none;
+    }}    
+    QPushButton#btnPLC {{
+        background-color: transparent;
+        color: #2c2c2c;
+        border: none;
+
+        min-height: 32px;
+        max-height: 32px;
+
+        padding: 0px 18px;
+        border-radius: 16px;
+    }}
+
+    QPushButton#btnPLC:hover {{
+        background-color: rgba(0, 0, 0, 0.05);
+    }}
+
+    QPushButton#btnPLC:pressed {{
+        background-color: rgba(0, 0, 0, 0.10);
+    }}
+
+    QPushButton#btnPLC[active="true"] {{
+        background-color: white;
+        color: black;
+        border-radius: 16px;
     }}
     """
