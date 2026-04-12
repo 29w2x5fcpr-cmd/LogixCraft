@@ -118,7 +118,7 @@
            <number>1</number>
           </property>
           <property name="rightMargin">
-           <number>1</number>
+           <number>9</number>
           </property>
           <property name="bottomMargin">
            <number>1</number>
@@ -161,13 +161,6 @@
            <widget class="QPushButton" name="btnPLC">
             <property name="text">
              <string>PLC</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" alignment="Qt::AlignmentFlag::AlignLeft">
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>PushButton</string>
             </property>
            </widget>
           </item>

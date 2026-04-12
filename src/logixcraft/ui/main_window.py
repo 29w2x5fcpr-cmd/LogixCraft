@@ -86,15 +86,13 @@ class MainWindow(QObject):
             )
 
         self.status_bar = self.window.findChild(QStatusBar, "statusbar")
-        print("statusbar:", self.status_bar)
+
         if self.status_bar is not None:
             self.status_bar.showMessage("Ready")
 
         self.homeImage = self.window.findChild(QLabel, "homeImage")
         self.homeTitle = self.window.findChild(QLabel, "homeTitle")
         self.homeAppVersion = self.window.findChild(QLabel, "homeAppVersion")
-
-        self.btnHome = self.window.findChild(QPushButton, "btnHome")
 
         self.homeAppVersion.setText(f"v{APP_VERSION}")
 

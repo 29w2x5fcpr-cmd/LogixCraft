@@ -111,4 +111,9 @@ def build_stylesheet(theme: dict) -> str:
         color: black;
         border-radius: 16px;
     }}
+    QFrame#navBarFrame {{
+        background-color: #121212;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+    }}
     """
