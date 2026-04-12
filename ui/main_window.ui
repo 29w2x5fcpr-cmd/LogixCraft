@@ -102,7 +102,7 @@
        <property name="spacing">
         <number>1</number>
        </property>
-       <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignLeft">
+       <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
         <widget class="QFrame" name="navBarFrame">
          <property name="frameShape">
           <enum>QFrame::Shape::StyledPanel</enum>
@@ -244,7 +244,7 @@
               <bool>false</bool>
              </property>
              <widget class="QWidget" name="page_sidebar_home"/>
-             <widget class="QWidget" name="page_4"/>
+             <widget class="QWidget" name="page_sidebar_plc"/>
             </widget>
            </item>
           </layout>
@@ -266,7 +266,7 @@
               </sizepolicy>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_main_home">
               <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -362,7 +362,7 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="page_2"/>
+             <widget class="QWidget" name="page_main_plc"/>
             </widget>
            </item>
           </layout>

@@ -5,7 +5,7 @@ from pathlib import Path
 from PySide6.QtCore import QFile, QIODevice, QObject, QEvent, Qt, QSize
 from PySide6.QtGui import QAction, QIcon, QPixmap, QFontDatabase, QFont
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QLabel, QPushButton, QMenu, QStatusBar
+from PySide6.QtWidgets import QLabel, QPushButton, QMenu, QStatusBar, QStackedWidget, QWidget
 
 from logixcraft.core.config import (
     APP_NAME,
@@ -97,6 +97,21 @@ class MainWindow(QObject):
 
         self.homeAppVersion.setText(f"v{APP_VERSION}")
 
+        self.btnHome = self.window.findChild(QPushButton, "btnHome")
+        self.btnPLC = self.window.findChild(QPushButton, "btnPLC")
+
+        self.sidebarStack = self.window.findChild(QStackedWidget, "sidebarStack")
+        self.mainStack = self.window.findChild(QStackedWidget, "mainStack")
+
+        self.page_sidebar_home = self.window.findChild(QWidget, "page_sidebar_home")
+        self.page_main_home = self.window.findChild(QWidget, "page_main_home")
+
+        self.page_sidebar_plc = self.window.findChild(QWidget, "page_sidebar_plc")
+        self.page_main_plc = self.window.findChild(QWidget, "page_main_plc")
+
+        self.btnHome.clicked.connect(self.show_home_page)
+        self.btnPLC.clicked.connect(self.show_plc_page)
+
         image_path = ASSETS_ROOT / "icons" / "app" / "logo.png"
 
         self.btnHome.setText("")
@@ -147,3 +162,17 @@ class MainWindow(QObject):
             width = self.settings.get("window", "width", default=1200)
             height = self.settings.get("window", "height", default=800)
             self.window.resize(width, height)
+
+    def show_home_page(self) -> None:
+        self.sidebarStack.setCurrentWidget(self.page_sidebar_home)
+        self.mainStack.setCurrentWidget(self.page_main_home)
+
+        if self.status_bar is not None:
+            self.status_bar.showMessage("Home page opened", 3000)
+
+    def show_plc_page(self) -> None:
+        self.sidebarStack.setCurrentWidget(self.page_sidebar_plc)
+        self.mainStack.setCurrentWidget(self.page_main_plc)
+
+        if self.status_bar is not None:
+            self.status_bar.showMessage("PLC page opened", 3000)
