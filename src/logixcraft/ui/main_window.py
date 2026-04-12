@@ -2,7 +2,7 @@ import logging
 
 from pathlib import Path
 
-from PySide6.QtCore import QFile, QIODevice, QObject, QEvent, Qt
+from PySide6.QtCore import QFile, QIODevice, QObject, QEvent, Qt, QSize
 from PySide6.QtGui import QAction, QIcon, QPixmap, QFontDatabase, QFont
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QLabel, QPushButton, QMenu, QStatusBar
@@ -93,15 +93,15 @@ class MainWindow(QObject):
         self.homeTitle = self.window.findChild(QLabel, "homeTitle")
         self.homeAppVersion = self.window.findChild(QLabel, "homeAppVersion")
 
-        self.btnHomeIcon = self.window.findChild(QPushButton, "btnHome")
+        self.btnHome = self.window.findChild(QPushButton, "btnHome")
 
         self.homeAppVersion.setText(f"v{APP_VERSION}")
 
         image_path = ASSETS_ROOT / "icons" / "app" / "logo.png"
 
-        self.btnHomeIcon.setText("")
-        self.btnHomeIcon.setIcon(QIcon(str(ASSETS_ROOT / "icons" / "app" / "logo_symbol.png")))
-
+        self.btnHome.setText("")
+        self.btnHome.setIcon(QIcon(str(ASSETS_ROOT / "icons" / "app" / "logo_symbol.png")))
+        self.btnHome.setIconSize(QSize(25, 25))
         pixmap = QPixmap(str(image_path))
         self.homeImage.setPixmap(
             pixmap.scaled(600, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)

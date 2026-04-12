@@ -102,7 +102,7 @@
        <property name="spacing">
         <number>1</number>
        </property>
-       <item row="0" column="0">
+       <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignLeft">
         <widget class="QFrame" name="navBarFrame">
          <property name="frameShape">
           <enum>QFrame::Shape::StyledPanel</enum>
@@ -110,11 +110,20 @@
          <property name="frameShadow">
           <enum>QFrame::Shadow::Raised</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QGridLayout" name="gridLayout_5">
           <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
            <number>1</number>
           </property>
-          <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter">
+          <property name="rightMargin">
+           <number>1</number>
+          </property>
+          <property name="bottomMargin">
+           <number>1</number>
+          </property>
+          <item row="0" column="0">
            <widget class="QPushButton" name="btnHome">
             <property name="minimumSize">
              <size>
@@ -148,14 +157,14 @@
             </property>
            </widget>
           </item>
-          <item>
+          <item row="0" column="1" alignment="Qt::AlignmentFlag::AlignLeft">
            <widget class="QPushButton" name="btnPLC">
             <property name="text">
              <string>PLC</string>
             </property>
            </widget>
           </item>
-          <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter">
+          <item row="0" column="2" alignment="Qt::AlignmentFlag::AlignLeft">
            <widget class="QPushButton" name="pushButton">
             <property name="text">
              <string>PushButton</string>
@@ -380,7 +389,30 @@
     </property>
     <addaction name="actionPreferences"/>
    </widget>
+   <widget class="QMenu" name="menuDeveloper">
+    <property name="title">
+     <string>Developer</string>
+    </property>
+    <addaction name="actionTerminal"/>
+    <addaction name="actionUpdate"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="actionLicense"/>
+    <addaction name="actionSoftware"/>
+   </widget>
+   <widget class="QMenu" name="menuCommissioning">
+    <property name="title">
+     <string>Commissioning</string>
+    </property>
+    <addaction name="actionDatabase"/>
+   </widget>
+   <addaction name="menuCommissioning"/>
    <addaction name="menuSettings"/>
+   <addaction name="menuDeveloper"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="enabled">
@@ -407,6 +439,31 @@
   <action name="actionPreferences">
    <property name="text">
     <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionLicense">
+   <property name="text">
+    <string>License</string>
+   </property>
+  </action>
+  <action name="actionSoftware">
+   <property name="text">
+    <string>Software</string>
+   </property>
+  </action>
+  <action name="actionTerminal">
+   <property name="text">
+    <string>Terminal</string>
+   </property>
+  </action>
+  <action name="actionDatabase">
+   <property name="text">
+    <string>Database</string>
+   </property>
+  </action>
+  <action name="actionUpdate">
+   <property name="text">
+    <string>Update</string>
    </property>
   </action>
  </widget>

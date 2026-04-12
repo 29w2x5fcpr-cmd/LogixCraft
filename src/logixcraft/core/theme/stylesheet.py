@@ -65,10 +65,20 @@ def build_stylesheet(theme: dict) -> str:
     QPushButton#btnHome {{
     background-color: white;
     color: black;
-    border-radius: 16px;
-    padding: 8px 14px;
+    border: none;
+
+    min-width: 36px;
+    max-width: 36px;
+    min-height: 36px;
+    max-height: 36px;
+
+    border-radius: 18px;
+    padding: 0px;
     }}   
-    QPushButton#BtnHome:hover {{
+    QPushButton#btnHome:hover {{
         background-color: #e6e6e6;
-    }}  
+    }} 
+    QPushButton#btnHome:pressed {{
+        background-color: #d0d0d0;
+    }}
     """
