@@ -1,8 +1,7 @@
 import logging
 
-from PySide6.QtCore import QEvent, QFile, QIODevice, QObject, QSize, Qt
+from PySide6.QtCore import QEvent, QObject, QSize, Qt
 from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import (
     QFrame,
     QLabel,
@@ -17,9 +16,11 @@ from logixcraft.core.config import (
     MAIN_WINDOW_UI,
 )
 from logixcraft.core.controller import AppController
+from logixcraft.core.resources import require_file
 from logixcraft.ui.dialog_manager import DialogManager
 from logixcraft.ui.menu_actions import MenuActionController
 from logixcraft.ui.navigation import NavigationController
+from logixcraft.ui.ui_loader import load_ui_file
 from logixcraft.ui.window_state import WindowState
 
 logger = logging.getLogger(__name__)
@@ -31,18 +32,8 @@ class MainWindow(QObject):
         self.settings = settings
         self.font_manager = font_manager
 
-        loader = QUiLoader()
-        ui_file = QFile(str(MAIN_WINDOW_UI))
         self.controller = AppController()
-
-        if not ui_file.open(QIODevice.ReadOnly):
-            raise RuntimeError(f"Could not open UI file: {MAIN_WINDOW_UI}")
-
-        self.window = loader.load(ui_file)
-        ui_file.close()
-
-        if self.window is None:
-            raise RuntimeError(f"Could not load UI file: {MAIN_WINDOW_UI}")
+        self.window = load_ui_file(MAIN_WINDOW_UI)
 
         self.dialog_manager = DialogManager(parent=self.window)
         self.window_state = WindowState(window=self.window, settings=self.settings)
@@ -75,10 +66,14 @@ class MainWindow(QObject):
             font_manager=self.font_manager,
             dialog_manager=self.dialog_manager,
         )
-        image_path = ASSETS_ROOT / "icons" / "app" / "logo.png"
+        image_path = require_file(ASSETS_ROOT / "icons" / "app" / "logo.png", "home logo")
+        icon_path = require_file(
+            ASSETS_ROOT / "icons" / "app" / "logo_symbol.png",
+            "home navigation icon",
+        )
 
         self.btnHome.setText("")
-        self.btnHome.setIcon(QIcon(str(ASSETS_ROOT / "icons" / "app" / "logo_symbol.png")))
+        self.btnHome.setIcon(QIcon(str(icon_path)))
         self.btnHome.setIconSize(QSize(25, 25))
         pixmap = QPixmap(str(image_path))
         self.homeImage.setPixmap(

@@ -3,6 +3,7 @@ import logging
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QApplication, QMenu
 
+from logixcraft.core.safe_call import run_safely
 from logixcraft.core.theme import ThemeManager
 from logixcraft.ui.dialog_manager import DialogManager
 from logixcraft.ui.license_dialog import LicenseDialog
@@ -81,10 +82,18 @@ class MenuActionController:
         return action
 
     def connect_actions(self) -> None:
-        self.action_preferences.triggered.connect(self.open_settings_dialog)
-        self.action_terminal.triggered.connect(self.open_terminal_dialog)
-        self.action_license.triggered.connect(self.open_license_dialog)
-        self.action_software.triggered.connect(self.open_software_dialog)
+        self.action_preferences.triggered.connect(
+            lambda: run_safely("Open Preferences", self.open_settings_dialog)
+        )
+        self.action_terminal.triggered.connect(
+            lambda: run_safely("Open Terminal", self.open_terminal_dialog)
+        )
+        self.action_license.triggered.connect(
+            lambda: run_safely("Open License", self.open_license_dialog)
+        )
+        self.action_software.triggered.connect(
+            lambda: run_safely("Open Software Information", self.open_software_dialog)
+        )
 
     def open_settings_dialog(self) -> None:
         dialog = SettingsDialog(

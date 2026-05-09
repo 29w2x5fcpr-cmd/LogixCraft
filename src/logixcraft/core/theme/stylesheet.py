@@ -269,4 +269,29 @@ def build_stylesheet(theme: dict) -> str:
         color: {color["text_primary"]};
         background-color: transparent;
     }}
+
+    QDialog#errorDialog {{
+        background-color: {color["app_bg"]};
+        color: {color["text_primary"]};
+    }}
+
+    QLabel#errorTitle {{
+        color: {color["text_primary"]};
+        font-size: {font["preferences_title_size"]};
+        font-weight: 700;
+        background-color: transparent;
+    }}
+
+    QLabel#errorMessage {{
+        color: {color["text_secondary"]};
+        background-color: transparent;
+    }}
+
+    QTextEdit#errorDetails {{
+        background-color: {color["panel_bg_emphasis"]};
+        color: {color["text_primary"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+        padding: 10px;
+    }}
     """
