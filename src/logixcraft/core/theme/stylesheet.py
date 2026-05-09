@@ -1,119 +1,173 @@
 def build_stylesheet(theme: dict) -> str:
+    color = theme["color"]
+    radius = theme["radius"]
+    size = theme["size"]
+
     return f"""
     QMainWindow {{
-        background-color: {theme["bg_app"]};
-        color: {theme["text_primary"]};
+        background-color: {color["app_bg"]};
+        color: {color["text_primary"]};
     }}
 
-    QWidget#centralWidget {{
-        background-color: {theme["bg_app"]};
-        color: {theme["text_primary"]};
+    QWidget#centralwidget {{
+        background-color: {color["app_bg"]};
+        color: {color["text_primary"]};
     }}
 
     QFrame#headerContainer,
     QFrame#sidebarContainer {{
-        background-color: {theme["bg_panel"]};
-        color: {theme["text_primary"]};
+        background-color: {color["panel_bg"]};
+        color: {color["text_primary"]};
     }}
 
     QWidget#contentContainer,
     QStackedWidget#mainStack {{
-        background-color: {theme["bg_content"]};
-        color: {theme["text_primary"]};
+        background-color: {color["content_bg"]};
+        color: {color["text_primary"]};
     }}
 
     QFrame#headerContainer {{
-        border-bottom: 1px solid {theme["border"]};
+        border-bottom: 1px solid {color["border"]};
     }}
 
     QFrame#sidebarContainer {{
-        border-right: 1px solid {theme["border"]};
+        border-right: 1px solid {color["border"]};
     }}
 
     QStackedWidget#sidebarStack,
     QWidget#page_sidebar_plc {{
-        background-color: {theme["bg_panel"]};
+        background-color: {color["panel_bg"]};
         border: none;
     }}
 
     QLabel#headerTitleLabel,
     QLabel#pageTitleLabel {{
-        color: {theme["text_primary"]};
+        color: {color["text_primary"]};
         font-weight: 600;
         background-color: transparent;
     }}
 
     QPushButton {{
-        background-color: {theme["bg_button"]};
-        border: 1px solid {theme["border"]};
+        background-color: {color["button_bg"]};
+        border: 1px solid {color["border"]};
         padding: 8px 12px;
-        border-radius: 8px;
+        border-radius: {radius["button"]};
     }}
 
     QPushButton:hover {{
-        background-color: {theme["bg_button_hover"]};
+        background-color: {color["button_hover_bg"]};
     }}
 
     QPushButton:pressed,
     QPushButton[active="true"] {{
-        background-color: {theme["bg_button_active"]};
+        background-color: {color["button_active_bg"]};
     }}
 
     QLabel#homeImage {{
         background: transparent;
     }}  
     QPushButton#btnHome {{
-    background-color: white;
-    color: black;
+    background-color: {color["home_button_bg"]};
+    color: {color["home_button_text"]};
     border: none;
 
-    min-width: 36px;
-    max-width: 36px;
-    min-height: 36px;
-    max-height: 36px;
+    min-width: {size["home_button"]};
+    max-width: {size["home_button"]};
+    min-height: {size["home_button"]};
+    max-height: {size["home_button"]};
 
-    border-radius: 18px;
+    border-radius: {radius["home_button"]};
     padding: 0px;
     }}   
     QPushButton#btnHome:hover {{
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: {color["home_button_hover_bg"]};
     }} 
     QPushButton#btnHome:pressed {{
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: {color["home_button_pressed_bg"]};
     }}
     QPushButton[active="true"] {{
-        background-color: #2c2c2c;
-        color: white;
+        background-color: {color["button_active_bg"]};
+        color: {color["text_primary"]};
         border: none;
     }}    
     QPushButton#btnPLC {{
-        background-color: transparent;
-        color: #2c2c2c;
+        background-color: {color["nav_button_bg"]};
+        color: {color["nav_button_text"]};
         border: none;
 
-        min-height: 32px;
-        max-height: 32px;
+        min-height: {size["nav_button_height"]};
+        max-height: {size["nav_button_height"]};
 
-        padding: 0px 18px;
-        border-radius: 16px;
+        padding: 0px {size["nav_button_horizontal_padding"]};
+        border-radius: {radius["pill"]};
     }}
 
     QPushButton#btnPLC:hover {{
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: {color["nav_button_hover_bg"]};
     }}
 
     QPushButton#btnPLC:pressed {{
-        background-color: rgba(0, 0, 0, 0.10);
+        background-color: {color["nav_button_pressed_bg"]};
     }}
 
     QPushButton#btnPLC[active="true"] {{
-        background-color: white;
-        color: black;
-        border-radius: 16px;
+        background-color: {color["nav_button_active_bg"]};
+        color: {color["nav_button_active_text"]};
+        border-radius: {radius["pill"]};
     }}
     QFrame#navBarFrame {{
-        background-color: #121212;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 24px;
+        background-color: {color["panel_bg_emphasis"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["navbar"]};
+    }}
+
+    QDialog#preferencesDialog {{
+        background-color: {color["app_bg"]};
+        color: {color["text_primary"]};
+    }}
+
+    QLabel#settingsTitle {{
+        color: {color["text_primary"]};
+        font-size: 22px;
+        font-weight: 700;
+        background-color: transparent;
+    }}
+
+    QLabel#settingsSubtitle {{
+        color: {color["text_secondary"]};
+        background-color: transparent;
+    }}
+
+    QFrame#preferencesSidebar {{
+        background-color: {color["panel_bg"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+    }}
+
+    QStackedWidget#preferencesPages,
+    QWidget#preferencesPage {{
+        background-color: {color["content_bg"]};
+        color: {color["text_primary"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+    }}
+
+    QPushButton#preferencesNavButton {{
+        background-color: transparent;
+        color: {color["text_primary"]};
+        border: none;
+        border-radius: {radius["button"]};
+        padding: 9px 10px;
+        text-align: left;
+        min-height: 34px;
+    }}
+
+    QPushButton#preferencesNavButton:hover {{
+        background-color: {color["button_hover_bg"]};
+    }}
+
+    QPushButton#preferencesNavButton:checked {{
+        background-color: {color["button_active_bg"]};
+        color: {color["text_primary"]};
     }}
     """

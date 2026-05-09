@@ -2,16 +2,20 @@ import logging
 
 from PySide6.QtWidgets import (
     QApplication,
+    QButtonGroup,
     QComboBox,
     QDialog,
     QDialogButtonBox,
     QFormLayout,
-    QGroupBox,
+    QFrame,
+    QHBoxLayout,
     QLabel,
     QMessageBox,
     QPushButton,
     QSizePolicy,
+    QStackedWidget,
     QVBoxLayout,
+    QWidget,
 )
 
 from logixcraft.core.settings.defaults import DEFAULT_SETTINGS
@@ -25,38 +29,62 @@ class SettingsDialog(QDialog):
         self.settings = settings
         self.theme_manager = theme_manager
 
-        self.setWindowTitle("Settings")
-        self.resize(680, 520)
-        self.setMinimumSize(620, 480)
+        self.setObjectName("preferencesDialog")
+        self.setWindowTitle("Preferences")
+        self.resize(760, 520)
+        self.setMinimumSize(720, 480)
 
         self._build_ui()
         self._load_current_values()
 
     def _build_ui(self) -> None:
-        self.title_label = QLabel("LogixCraft Settings")
+        self.title_label = QLabel("Preferences")
         self.title_label.setObjectName("settingsTitle")
 
         self.subtitle_label = QLabel("Manage appearance and application defaults.")
         self.subtitle_label.setObjectName("settingsSubtitle")
         self.subtitle_label.setWordWrap(True)
 
-        self.group_appearance = QGroupBox("Appearance")
-        self.group_appearance.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
+        self.sidebar = QFrame()
+        self.sidebar.setObjectName("preferencesSidebar")
+        self.sidebar.setMinimumWidth(170)
+        self.sidebar.setMaximumWidth(190)
+        sidebar_layout = QVBoxLayout()
+        sidebar_layout.setContentsMargins(10, 10, 10, 10)
+        sidebar_layout.setSpacing(6)
+
+        self.nav_group = QButtonGroup(self)
+        self.nav_group.setExclusive(True)
+
+        self.button_appearance = self._create_nav_button("Appearance", 0)
+        self.button_window = self._create_nav_button("Window", 1)
+        self.button_advanced = self._create_nav_button("Advanced", 2)
+
+        sidebar_layout.addWidget(self.button_appearance)
+        sidebar_layout.addWidget(self.button_window)
+        sidebar_layout.addWidget(self.button_advanced)
+        sidebar_layout.addStretch()
+        self.sidebar.setLayout(sidebar_layout)
+
+        self.pages = QStackedWidget()
+        self.pages.setObjectName("preferencesPages")
+
+        self.page_appearance = QWidget()
+        self.page_appearance.setObjectName("preferencesPage")
         appearance_layout = QFormLayout()
-        appearance_layout.setContentsMargins(16, 20, 16, 16)
+        appearance_layout.setContentsMargins(18, 18, 18, 18)
         appearance_layout.setHorizontalSpacing(16)
         appearance_layout.setVerticalSpacing(14)
 
         self.theme_combo = QComboBox()
         self.theme_combo.addItems(self.theme_manager.available_themes())
         appearance_layout.addRow("Theme:", self.theme_combo)
+        self.page_appearance.setLayout(appearance_layout)
 
-        self.group_appearance.setLayout(appearance_layout)
-
-        self.group_window = QGroupBox("Window")
-        self.group_window.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
+        self.page_window = QWidget()
+        self.page_window.setObjectName("preferencesPage")
         window_layout = QVBoxLayout()
-        window_layout.setContentsMargins(16, 20, 16, 16)
+        window_layout.setContentsMargins(18, 18, 18, 18)
         window_layout.setSpacing(12)
 
         self.window_info = QLabel("Restore the default application window size.")
@@ -65,13 +93,13 @@ class SettingsDialog(QDialog):
 
         window_layout.addWidget(self.window_info)
         window_layout.addWidget(self.button_reset_window)
+        window_layout.addStretch()
+        self.page_window.setLayout(window_layout)
 
-        self.group_window.setLayout(window_layout)
-
-        self.group_advanced = QGroupBox("Advanced")
-        self.group_advanced.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
+        self.page_advanced = QWidget()
+        self.page_advanced.setObjectName("preferencesPage")
         advanced_layout = QVBoxLayout()
-        advanced_layout.setContentsMargins(16, 20, 16, 16)
+        advanced_layout.setContentsMargins(18, 18, 18, 18)
         advanced_layout.setSpacing(12)
 
         self.advanced_info = QLabel("Reset all saved settings back to factory defaults.")
@@ -81,8 +109,18 @@ class SettingsDialog(QDialog):
 
         advanced_layout.addWidget(self.advanced_info)
         advanced_layout.addWidget(self.button_reset_all)
+        advanced_layout.addStretch()
+        self.page_advanced.setLayout(advanced_layout)
 
-        self.group_advanced.setLayout(advanced_layout)
+        self.pages.addWidget(self.page_appearance)
+        self.pages.addWidget(self.page_window)
+        self.pages.addWidget(self.page_advanced)
+
+        content_layout = QHBoxLayout()
+        content_layout.setContentsMargins(0, 0, 0, 0)
+        content_layout.setSpacing(14)
+        content_layout.addWidget(self.sidebar)
+        content_layout.addWidget(self.pages, 1)
 
         self.button_box = QDialogButtonBox()
         self.button_cancel = self.button_box.addButton(QDialogButtonBox.Cancel)
@@ -95,19 +133,26 @@ class SettingsDialog(QDialog):
 
         main_layout.addWidget(self.title_label)
         main_layout.addWidget(self.subtitle_label)
-        main_layout.addWidget(self.group_appearance)
-        main_layout.addWidget(self.group_window)
-        main_layout.addWidget(self.group_advanced)
-        main_layout.addStretch()
+        main_layout.addLayout(content_layout, 1)
         main_layout.addWidget(self.button_box)
 
         self.setLayout(main_layout)
 
+        self.button_appearance.setChecked(True)
         self.button_cancel.clicked.connect(self.reject)
         self.button_apply.clicked.connect(self.apply_settings)
         self.button_save.clicked.connect(self.save_and_close)
         self.button_reset_all.clicked.connect(self.reset_all_settings)
         self.button_reset_window.clicked.connect(self.reset_window_size)
+
+    def _create_nav_button(self, text: str, page_index: int) -> QPushButton:
+        button = QPushButton(text)
+        button.setObjectName("preferencesNavButton")
+        button.setCheckable(True)
+        button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        button.clicked.connect(lambda: self.pages.setCurrentIndex(page_index))
+        self.nav_group.addButton(button)
+        return button
 
     def _load_current_values(self) -> None:
         current_theme = self.settings.get("appearance", "theme", default="dark")

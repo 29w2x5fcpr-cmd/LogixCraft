@@ -1,13 +1,10 @@
-from logixcraft.core.theme.themes import LIGHT_THEME, DARK_THEME
 from logixcraft.core.theme.stylesheet import build_stylesheet
+from logixcraft.core.theme.themes import ALL_THEMES, LIGHT_THEME
 
 
 class ThemeManager:
     def __init__(self) -> None:
-        self._themes = {
-            "light": LIGHT_THEME,
-            "dark": DARK_THEME,
-        }
+        self._themes = ALL_THEMES
 
     def apply_theme(self, app, theme_name: str) -> None:
         theme = self._themes.get(theme_name, LIGHT_THEME)
