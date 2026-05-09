@@ -1,0 +1,621 @@
+LogixCraft — Full Project Description & Scope
+
+Overview
+
+LogixCraft is a professional desktop engineering toolkit designed primarily for industrial automation engineers working with PLC systems, HMI/SCADA platforms, industrial networks, and commissioning environments.
+
+The software is intended to become an all-in-one engineering workspace for daily automation tasks that are currently spread across multiple tools, spreadsheets, scripts, vendor utilities, manuals, and calculators.
+
+The long-term vision is to create a modern, fast, offline-capable engineering platform that combines:
+
+PLC development assistance
+Automation utilities
+Industrial diagnostics
+Documentation tools
+Engineering calculators
+File conversion utilities
+Troubleshooting resources
+Network management
+Integrated help/manual systems
+
+The project is being developed in Python using:
+
+PySide6
+Qt Designer
+Visual Studio Code
+Git/GitHub workflow
+Modular plugin-style architecture
+
+The target platform is primarily Windows, focused on industrial engineering environments.
+
+⸻
+
+Core Vision
+
+The goal of LogixCraft is to become:
+
+“The Swiss Army knife for PLC and automation engineers.”
+
+Instead of using:
+
+Excel for calculations
+Random scripts for conversions
+Separate network tools
+PDF manuals
+Vendor-specific calculators
+SCADA utilities
+Separate SSH/RDP software
+Documentation scattered across folders
+
+…everything would exist inside one unified engineering environment.
+
+⸻
+
+Primary User Base
+
+Intended Users
+
+PLC Engineers
+Controls Engineers
+Automation Engineers
+Commissioning Engineers
+SCADA Engineers
+Maintenance Engineers
+System Integrators
+Industrial Electricians
+Technical Support Engineers
+
+⸻
+
+High-Level Architecture
+
+Application Type
+
+Desktop application:
+
+Native-feeling UI
+Fast startup
+Offline-first design
+Modern responsive interface
+Dockable/expandable architecture later
+
+⸻
+
+Current Technology Stack
+
+Backend
+
+Python 3.12+
+
+GUI Framework
+
+PySide6
+
+UI Design
+
+Qt Designer
+
+Version Control
+
+GitHub Repository
+
+Styling
+
+Qt Stylesheets (QSS)
+Custom theme engine
+
+⸻
+
+Current UI Structure
+
+Main Window Layout
+
+The application currently includes:
+
+Header Area
+
+Contains:
+
+Window controls
+Branding
+Quick access actions
+Theme controls later
+Search later
+
+⸻
+
+Sidebar Navigation
+
+Category-based navigation:
+
+Home
+PLC
+Networking
+Maths
+FactoryTalk
+PC Tools
+Settings
+Future modules
+
+⸻
+
+Main Content Area
+
+Dynamic stacked pages:
+
+Home dashboard
+Feature interfaces
+Tools
+Editors
+Viewers
+
+⸻
+
+Status Bar
+
+Displays:
+
+Application state
+Active project
+Connection status
+Notifications
+Errors/warnings
+
+⸻
+
+Design Philosophy
+
+UI Goals
+
+The interface should feel:
+
+Professional
+Industrial
+Clean
+Minimal
+Engineering-focused
+Efficient for long sessions
+
+Inspirations:
+
+Industrial SCADA systems
+Modern engineering IDEs
+Network management suites
+Professional tooling dashboards
+
+⸻
+
+Planned Major Modules
+
+1. PLC Engineering Module
+
+The heart of LogixCraft.
+
+Initially focused on:
+
+Rockwell Automation
+Allen-Bradley PLC systems
+
+Later expandable to:
+
+Siemens
+Beckhoff
+Omron
+Mitsubishi
+Schneider
+
+⸻
+
+Planned PLC Features
+
+PLC Calculators
+
+MOD calculations
+Scaling calculators
+Timer calculations
+Overflow calculations
+Binary/hex/decimal conversion
+Analog scaling
+Engineering unit conversion
+
+⸻
+
+Logic Utilities
+
+Tag generators
+Address generators
+Alias generators
+Structure generators
+AOI helpers
+UDT helpers
+
+⸻
+
+Code Tools
+
+L5K parsing
+L5X parsing
+Auto-generation tools
+Import/export utilities
+Compare tools
+Search tools
+
+⸻
+
+PLC Analysis Tools
+
+Scan time estimators
+Memory estimators
+Cross-reference utilities
+Alarm analysis
+Sequence diagnostics
+
+⸻
+
+Instruction References
+
+Integrated manuals for:
+
+COP/CPS
+FBC
+PID
+MOV
+SCP
+CPT
+AOI
+MSG
+Motion instructions
+
+⸻
+
+2. FactoryTalk / SCADA Module
+
+Tools related to:
+
+Rockwell Automation FactoryTalk
+iFIX
+HMI/SCADA environments
+
+⸻
+
+Planned Features
+
+HMI Utilities
+
+Tag audits
+Alarm audits
+Screen analysis
+Broken reference detection
+
+⸻
+
+SCADA Diagnostics
+
+OPC troubleshooting
+Driver diagnostics
+Historical analysis
+Database utilities
+
+⸻
+
+Alarm Tools
+
+Alarm philosophy helpers
+Alarm rationalisation
+Priority analysis
+Alarm export/import
+
+⸻
+
+3. Networking Module
+
+Industrial networking toolkit.
+
+⸻
+
+Planned Features
+
+Connectivity
+
+Ping tools
+Port scanners
+PLC discovery
+Device scanning
+
+⸻
+
+Remote Access
+
+Built-in:
+
+RDP management
+SSH management
+Credential vault
+Session organisation
+
+Inspired by:
+
+mRemoteNG
+PuTTY
+
+⸻
+
+Industrial Protocol Support
+
+Future support:
+
+Ethernet/IP
+Modbus TCP
+OPC UA
+Profinet diagnostics
+BACnet tools
+
+⸻
+
+4. Engineering Maths Module
+
+An advanced engineering calculator environment.
+
+⸻
+
+Planned Features
+
+Basic Engineering Tools
+
+Formula calculators
+Unit conversion
+Scientific calculations
+
+⸻
+
+Industrial Calculations
+
+Pump calculations
+Flow calculations
+Pressure calculations
+Power calculations
+Heat transfer basics
+
+⸻
+
+Electrical Tools
+
+Three-phase calculations
+Current/power estimators
+Cable sizing helpers
+Voltage drop
+
+⸻
+
+5. Documentation & Knowledge Module
+
+One of the biggest long-term goals.
+
+⸻
+
+Integrated Help Viewer
+
+The application will include a built-in engineering knowledge system.
+
+Not just software documentation — but:
+
+Commissioning guides
+Troubleshooting procedures
+PLC examples
+Networking guides
+Industrial standards references
+Notes
+Internal manuals
+
+⸻
+
+Features Planned
+
+Markdown rendering
+PDF viewing
+Searchable manuals
+Bookmark system
+Embedded diagrams/images
+Offline documentation library
+
+⸻
+
+6. File & Project Management
+
+Planned Features
+
+Project workspace support
+Tool presets
+Saved sessions
+Import/export packages
+Backup management
+Auto-save systems
+
+⸻
+
+7. Licensing & Commercial System
+
+Future commercialisation support.
+
+⸻
+
+Planned Licensing
+
+License key activation
+Offline activation
+Device registration
+Subscription support later
+Anti-piracy protection
+
+⸻
+
+8. Theme & UI System
+
+Current Direction
+
+Light theme
+Dark theme
+Professional industrial styling
+Inter font
+Icon-based navigation
+
+⸻
+
+Future Plans
+
+Custom themes
+Accent colours
+Workspace layouts
+UI scaling
+Dockable windows
+
+⸻
+
+9. Plugin / Expansion Architecture
+
+Long-term modularity.
+
+Potential future support:
+
+Community plugins
+Internal plugins
+Scripting APIs
+Automation extensions
+
+⸻
+
+10. Reporting & Export Systems
+
+Planned Exports
+
+PDF reports
+CSV exports
+Excel exports
+Engineering reports
+Audit documentation
+
+⸻
+
+Development Philosophy
+
+Key Principles
+
+Offline First
+
+The application must remain fully usable without internet access.
+
+⸻
+
+Fast Workflow
+
+Engineers should reach tools quickly:
+
+Minimal clicks
+Keyboard shortcuts
+Fast search
+Efficient navigation
+
+⸻
+
+Professional Stability
+
+Industrial software must:
+
+Avoid crashes
+Handle corrupted files
+Save state correctly
+Recover sessions
+
+⸻
+
+Scalable Architecture
+
+The codebase should support:
+
+Large feature expansion
+Modular tools
+Future protocol support
+Commercial deployment
+
+⸻
+
+Current Development Status
+
+Already Implemented
+
+Core application structure
+Main window system
+Sidebar navigation
+Dynamic stacked pages
+Theme system foundation
+Settings manager
+Status bar
+Home page
+GitHub repository
+UI architecture
+
+⸻
+
+Immediate Next Priorities
+
+Phase 1 — Foundation
+
+Navigation framework
+Reusable widgets
+Theme engine refinement
+Settings architecture
+File handling structure
+
+⸻
+
+Phase 2 — Core PLC Tools
+
+MOD calculator
+Scaling tools
+Tag generators
+Conversion utilities
+PLC helper tools
+
+⸻
+
+Phase 3 — Documentation System
+
+Embedded help viewer
+Searchable docs
+Engineering notes
+
+⸻
+
+Phase 4 — Networking
+
+RDP manager
+SSH tools
+Device discovery
+
+⸻
+
+Phase 5 — Advanced Engineering Suite
+
+File parsing
+PLC analysis
+Industrial diagnostics
+Reporting systems
+
+⸻
+
+Long-Term Goal
+
+The final vision is for LogixCraft to become:
+
+A professional commercial engineering platform
+A daily-use automation engineering environment
+A knowledge base for industrial troubleshooting
+A replacement for dozens of small engineering utilities
+A scalable platform expandable for many industrial vendors
+
+Potentially evolving into:
+
+A full industrial engineering ecosystem
+Team collaboration platform later
+Enterprise engineering toolkit
+Automation operations suite

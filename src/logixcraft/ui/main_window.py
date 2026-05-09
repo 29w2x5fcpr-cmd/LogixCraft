@@ -1,34 +1,44 @@
 import logging
-
-from pathlib import Path
 from functools import partial
 
-from PySide6.QtCore import QFile, QIODevice, QObject, QEvent, Qt, QSize
-from PySide6.QtGui import QAction, QIcon, QPixmap, QFontDatabase, QFont
+from PySide6.QtCore import QEvent, QFile, QIODevice, QObject, QSize, Qt
+from PySide6.QtGui import QAction, QIcon, QPixmap
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QLabel, QPushButton, QMenu, QStatusBar, QStackedWidget, QWidget
+from PySide6.QtWidgets import (
+    QFrame,
+    QLabel,
+    QMenu,
+    QPushButton,
+    QStackedWidget,
+    QStatusBar,
+    QWidget,
+)
 
 from logixcraft.core.config import (
     APP_NAME,
     APP_VERSION,
-    PROJECT_ROOT,
     ASSETS_ROOT,
-    ICONS_ROOT,
     MAIN_WINDOW_UI,
-    NAV_BUTTONS,
 )
 from logixcraft.core.controller import AppController
 from logixcraft.core.theme import ThemeManager
+from logixcraft.ui.license_dialog import LicenseDialog
 from logixcraft.ui.settings_dialog import SettingsDialog
+from logixcraft.ui.software_dialog import SoftwareDialog
+from logixcraft.ui.terminal_dialog import TerminalDialog
 
 logger = logging.getLogger(__name__)
 
 
 class MainWindow(QObject):
-    def __init__(self, settings) -> None:
+    def __init__(self, settings, font_manager) -> None:
         super().__init__()
         self.settings = settings
+        self.font_manager = font_manager
         self.theme_manager = ThemeManager()
+        self.terminal_dialog = None
+        self.license_dialog = None
+        self.software_dialog = None
 
         loader = QUiLoader()
         ui_file = QFile(str(MAIN_WINDOW_UI))
@@ -82,8 +92,21 @@ class MainWindow(QObject):
 
         if self.action_preferences is None:
             raise RuntimeError(
-                "Could not find QAction 'actionPreferences'. Check the QAction objectName in Qt Designer."
+                "Could not find QAction 'actionPreferences'. "
+                "Check the QAction objectName in Qt Designer."
             )
+
+        self.action_terminal = self.window.findChild(QAction, "actionTerminal")
+        if self.action_terminal is None:
+            raise RuntimeError("Could not find QAction 'actionTerminal'")
+
+        self.action_license = self.window.findChild(QAction, "actionLicense")
+        if self.action_license is None:
+            raise RuntimeError("Could not find QAction 'actionLicense'")
+
+        self.action_software = self.window.findChild(QAction, "actionSoftware")
+        if self.action_software is None:
+            raise RuntimeError("Could not find QAction 'actionSoftware'")
 
         self.status_bar = self.window.findChild(QStatusBar, "statusbar")
 
@@ -98,6 +121,11 @@ class MainWindow(QObject):
 
         self.btnHome = self.window.findChild(QPushButton, "btnHome")
         self.btnPLC = self.window.findChild(QPushButton, "btnPLC")
+        self.navBarFrame = self.window.findChild(QFrame, "navBarFrame")
+
+        if self.navBarFrame is not None:
+            self.navBarFrame.setFrameShape(QFrame.NoFrame)
+            self.navBarFrame.setFixedHeight(42)
 
         self.sidebarStack = self.window.findChild(QStackedWidget, "sidebarStack")
         self.mainStack = self.window.findChild(QStackedWidget, "mainStack")
@@ -133,6 +161,9 @@ class MainWindow(QObject):
             pixmap.scaled(600, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         )
         self.action_preferences.triggered.connect(self.open_settings_dialog)
+        self.action_terminal.triggered.connect(self.open_terminal_dialog)
+        self.action_license.triggered.connect(self.open_license_dialog)
+        self.action_software.triggered.connect(self.open_software_dialog)
         self.window.installEventFilter(self)
         self.navigate("home")
         logger.info("Main window initialized")
@@ -157,6 +188,7 @@ class MainWindow(QObject):
         dialog = SettingsDialog(
             settings=self.settings,
             theme_manager=self.theme_manager,
+            font_manager=self.font_manager,
             parent=self.window,
         )
 
@@ -173,6 +205,42 @@ class MainWindow(QObject):
             width = self.settings.get("window", "width", default=1200)
             height = self.settings.get("window", "height", default=800)
             self.window.resize(width, height)
+
+    def open_terminal_dialog(self) -> None:
+        if self.terminal_dialog is None:
+            self.terminal_dialog = TerminalDialog(parent=self.window)
+            self.terminal_dialog.finished.connect(self._clear_terminal_dialog)
+
+        self.terminal_dialog.show()
+        self.terminal_dialog.raise_()
+        self.terminal_dialog.activateWindow()
+
+    def _clear_terminal_dialog(self) -> None:
+        self.terminal_dialog = None
+
+    def open_license_dialog(self) -> None:
+        if self.license_dialog is None:
+            self.license_dialog = LicenseDialog(parent=self.window)
+            self.license_dialog.finished.connect(self._clear_license_dialog)
+
+        self.license_dialog.show()
+        self.license_dialog.raise_()
+        self.license_dialog.activateWindow()
+
+    def _clear_license_dialog(self) -> None:
+        self.license_dialog = None
+
+    def open_software_dialog(self) -> None:
+        if self.software_dialog is None:
+            self.software_dialog = SoftwareDialog(parent=self.window)
+            self.software_dialog.finished.connect(self._clear_software_dialog)
+
+        self.software_dialog.show()
+        self.software_dialog.raise_()
+        self.software_dialog.activateWindow()
+
+    def _clear_software_dialog(self) -> None:
+        self.software_dialog = None
 
     def show_home_page(self) -> None:
         self.sidebarStack.setCurrentWidget(self.page_sidebar_home)
@@ -244,3 +312,5 @@ class MainWindow(QObject):
 
         if self.status_bar is not None:
             self.status_bar.showMessage(f"Opened {key}", 3000)
+
+        logger.info("Opened %s page", key)

@@ -1,15 +1,23 @@
 SHARED_RADIUS = {
     "button": "8px",
     "pill": "16px",
-    "navbar": "24px",
+    "navbar": "21px",
     "home_button": "18px",
 }
 
 SHARED_SIZE = {
     "home_button": "36px",
+    "navbar_height": "42px",
     "nav_button_height": "32px",
     "nav_home_icon": "25px",
     "nav_button_horizontal_padding": "18px",
+}
+
+SHARED_FONT = {
+    "base_size": "10pt",
+    "nav_button_size": "10pt",
+    "nav_button_weight": "650",
+    "preferences_title_size": "22px",
 }
 
 
@@ -19,6 +27,7 @@ def create_theme(name: str, color: dict[str, str]) -> dict:
         "color": color,
         "radius": SHARED_RADIUS,
         "size": SHARED_SIZE,
+        "font": SHARED_FONT,
     }
 
 

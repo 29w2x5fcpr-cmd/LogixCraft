@@ -1,6 +1,7 @@
 DEFAULT_SETTINGS = {
     "appearance": {
         "theme": "dark",
+        "font_family": "Roboto",
         "ui_scale": 1.0,
     },
     "window": {

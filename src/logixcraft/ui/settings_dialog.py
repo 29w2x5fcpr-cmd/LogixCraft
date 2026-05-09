@@ -24,10 +24,11 @@ logger = logging.getLogger(__name__)
 
 
 class SettingsDialog(QDialog):
-    def __init__(self, settings, theme_manager, parent=None) -> None:
+    def __init__(self, settings, theme_manager, font_manager, parent=None) -> None:
         super().__init__(parent)
         self.settings = settings
         self.theme_manager = theme_manager
+        self.font_manager = font_manager
 
         self.setObjectName("preferencesDialog")
         self.setWindowTitle("Preferences")
@@ -79,6 +80,10 @@ class SettingsDialog(QDialog):
         self.theme_combo = QComboBox()
         self.theme_combo.addItems(self.theme_manager.available_themes())
         appearance_layout.addRow("Theme:", self.theme_combo)
+
+        self.font_combo = QComboBox()
+        self.font_combo.addItems(self.font_manager.available_families())
+        appearance_layout.addRow("Font:", self.font_combo)
         self.page_appearance.setLayout(appearance_layout)
 
         self.page_window = QWidget()
@@ -160,13 +165,21 @@ class SettingsDialog(QDialog):
         if index >= 0:
             self.theme_combo.setCurrentIndex(index)
 
+        current_font = self.settings.get("appearance", "font_family", default="Segoe UI")
+        index = self.font_combo.findText(current_font)
+        if index >= 0:
+            self.font_combo.setCurrentIndex(index)
+
     def apply_settings(self) -> None:
         selected_theme = self.theme_combo.currentText()
+        selected_font = self.font_combo.currentText()
         self.settings.set("appearance", "theme", value=selected_theme)
+        self.settings.set("appearance", "font_family", value=selected_font)
         self.settings.save()
 
         app = QApplication.instance()
         if app is not None:
+            self.font_manager.apply_font(app, selected_font)
             self.theme_manager.apply_theme(app, selected_theme)
 
         logger.info("Settings applied from settings dialog")
@@ -194,8 +207,14 @@ class SettingsDialog(QDialog):
         if index >= 0:
             self.theme_combo.setCurrentIndex(index)
 
+        default_font = self.settings.get("appearance", "font_family", default="Segoe UI")
+        index = self.font_combo.findText(default_font)
+        if index >= 0:
+            self.font_combo.setCurrentIndex(index)
+
         app = QApplication.instance()
         if app is not None:
+            self.font_manager.apply_font(app, default_font)
             self.theme_manager.apply_theme(app, default_theme)
 
         if self.parent() is not None:

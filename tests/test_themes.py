@@ -15,7 +15,7 @@ def test_theme_token_groups_match() -> None:
     for theme in ALL_THEMES.values():
         assert theme.keys() == reference.keys()
 
-        for group in ("color", "radius", "size"):
+        for group in ("color", "radius", "size", "font"):
             assert theme[group].keys() == reference[group].keys()
 
 
@@ -25,6 +25,7 @@ def test_stylesheet_uses_theme_tokens() -> None:
     assert DARK_THEME["color"]["panel_bg_emphasis"] in stylesheet
     assert DARK_THEME["radius"]["navbar"] in stylesheet
     assert DARK_THEME["size"]["home_button"] in stylesheet
+    assert DARK_THEME["font"]["nav_button_size"] in stylesheet
     assert "QWidget#centralwidget" in stylesheet
 
 
