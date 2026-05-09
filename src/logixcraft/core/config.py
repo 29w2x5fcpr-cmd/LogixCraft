@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from platformdirs import user_config_dir
+
 APP_NAME = "LogixCraft"
 APP_VERSION = "0.1.0"
 
@@ -14,7 +16,9 @@ BUILDS_ROOT = PROJECT_ROOT / "builds"
 LOGS_ROOT = PROJECT_ROOT / "logs"
 
 CONFIG_ROOT = PROJECT_ROOT / "config"
-SETTINGS_FILE = CONFIG_ROOT / "settings.json"
+DEFAULT_SETTINGS_FILE = CONFIG_ROOT / "settings.json"
+USER_CONFIG_ROOT = Path(user_config_dir(APP_NAME, appauthor=False))
+SETTINGS_FILE = USER_CONFIG_ROOT / "settings.json"
 
 MAIN_WINDOW_UI = UI_ROOT / "main_window.ui"
 

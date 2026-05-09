@@ -22,6 +22,7 @@ from logixcraft.core.config import (
 )
 from logixcraft.core.controller import AppController
 from logixcraft.core.theme import ThemeManager
+from logixcraft.ui.dialog_manager import DialogManager
 from logixcraft.ui.license_dialog import LicenseDialog
 from logixcraft.ui.settings_dialog import SettingsDialog
 from logixcraft.ui.software_dialog import SoftwareDialog
@@ -36,9 +37,6 @@ class MainWindow(QObject):
         self.settings = settings
         self.font_manager = font_manager
         self.theme_manager = ThemeManager()
-        self.terminal_dialog = None
-        self.license_dialog = None
-        self.software_dialog = None
 
         loader = QUiLoader()
         ui_file = QFile(str(MAIN_WINDOW_UI))
@@ -53,6 +51,7 @@ class MainWindow(QObject):
         if self.window is None:
             raise RuntimeError(f"Could not load UI file: {MAIN_WINDOW_UI}")
 
+        self.dialog_manager = DialogManager(parent=self.window)
         self.window.setWindowTitle(f"{APP_NAME} v{APP_VERSION}")
 
         width = self.settings.get("window", "width", default=1200)
@@ -207,40 +206,13 @@ class MainWindow(QObject):
             self.window.resize(width, height)
 
     def open_terminal_dialog(self) -> None:
-        if self.terminal_dialog is None:
-            self.terminal_dialog = TerminalDialog(parent=self.window)
-            self.terminal_dialog.finished.connect(self._clear_terminal_dialog)
-
-        self.terminal_dialog.show()
-        self.terminal_dialog.raise_()
-        self.terminal_dialog.activateWindow()
-
-    def _clear_terminal_dialog(self) -> None:
-        self.terminal_dialog = None
+        self.dialog_manager.show_single("terminal", TerminalDialog)
 
     def open_license_dialog(self) -> None:
-        if self.license_dialog is None:
-            self.license_dialog = LicenseDialog(parent=self.window)
-            self.license_dialog.finished.connect(self._clear_license_dialog)
-
-        self.license_dialog.show()
-        self.license_dialog.raise_()
-        self.license_dialog.activateWindow()
-
-    def _clear_license_dialog(self) -> None:
-        self.license_dialog = None
+        self.dialog_manager.show_single("license", LicenseDialog)
 
     def open_software_dialog(self) -> None:
-        if self.software_dialog is None:
-            self.software_dialog = SoftwareDialog(parent=self.window)
-            self.software_dialog.finished.connect(self._clear_software_dialog)
-
-        self.software_dialog.show()
-        self.software_dialog.raise_()
-        self.software_dialog.activateWindow()
-
-    def _clear_software_dialog(self) -> None:
-        self.software_dialog = None
+        self.dialog_manager.show_single("software", SoftwareDialog)
 
     def show_home_page(self) -> None:
         self.sidebarStack.setCurrentWidget(self.page_sidebar_home)
