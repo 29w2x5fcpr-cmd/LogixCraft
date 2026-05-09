@@ -3,7 +3,7 @@ from pathlib import Path
 from platformdirs import user_config_dir
 
 APP_NAME = "LogixCraft"
-APP_VERSION = "0.1.0"
+APP_VERSION = "0.1.20260509"
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 SRC_ROOT = PROJECT_ROOT / "src"
