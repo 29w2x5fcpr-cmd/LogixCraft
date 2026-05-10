@@ -208,3 +208,6 @@ __marimo__/
 
 # Logs
 logs/
+
+# Local backups created during UI experiments
+backups/
