@@ -1,5 +1,6 @@
 import logging
 
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QApplication,
     QButtonGroup,
@@ -18,6 +19,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from logixcraft.core.config import SETTINGS_FILE
+from logixcraft.core.fonts import DEFAULT_FONT_FAMILY
 from logixcraft.core.settings.defaults import DEFAULT_SETTINGS
 
 logger = logging.getLogger(__name__)
@@ -32,8 +35,8 @@ class SettingsDialog(QDialog):
 
         self.setObjectName("preferencesDialog")
         self.setWindowTitle("Preferences")
-        self.resize(760, 520)
-        self.setMinimumSize(720, 480)
+        self.resize(720, 480)
+        self.setMinimumSize(660, 430)
 
         self._build_ui()
         self._load_current_values()
@@ -72,8 +75,16 @@ class SettingsDialog(QDialog):
 
         self.page_appearance = QWidget()
         self.page_appearance.setObjectName("preferencesPage")
+        appearance_page_layout = QVBoxLayout()
+        appearance_page_layout.setContentsMargins(18, 18, 18, 18)
+        appearance_page_layout.setSpacing(12)
+        appearance_page_layout.addWidget(self._create_page_title("Appearance"))
+        appearance_page_layout.addWidget(
+            self._create_page_note("Choose the active theme and application font.")
+        )
+
         appearance_layout = QFormLayout()
-        appearance_layout.setContentsMargins(18, 18, 18, 18)
+        appearance_layout.setContentsMargins(0, 0, 0, 0)
         appearance_layout.setHorizontalSpacing(16)
         appearance_layout.setVerticalSpacing(14)
 
@@ -84,19 +95,30 @@ class SettingsDialog(QDialog):
         self.font_combo = QComboBox()
         self.font_combo.addItems(self.font_manager.available_families())
         appearance_layout.addRow("Font:", self.font_combo)
-        self.page_appearance.setLayout(appearance_layout)
+        appearance_page_layout.addLayout(appearance_layout)
+
+        self.font_preview = QLabel("LogixCraft engineering workspace")
+        self.font_preview.setObjectName("preferencesFontPreview")
+        appearance_page_layout.addWidget(self.font_preview)
+        appearance_page_layout.addStretch()
+        self.page_appearance.setLayout(appearance_page_layout)
 
         self.page_window = QWidget()
         self.page_window.setObjectName("preferencesPage")
         window_layout = QVBoxLayout()
         window_layout.setContentsMargins(18, 18, 18, 18)
         window_layout.setSpacing(12)
+        window_layout.addWidget(self._create_page_title("Window"))
 
         self.window_info = QLabel("Restore the default application window size.")
+        self.window_info.setObjectName("preferencesInfo")
         self.window_info.setWordWrap(True)
+        self.current_window_size = QLabel()
+        self.current_window_size.setObjectName("preferencesMeta")
         self.button_reset_window = QPushButton("Reset Window Size")
 
         window_layout.addWidget(self.window_info)
+        window_layout.addWidget(self.current_window_size)
         window_layout.addWidget(self.button_reset_window)
         window_layout.addStretch()
         self.page_window.setLayout(window_layout)
@@ -106,13 +128,19 @@ class SettingsDialog(QDialog):
         advanced_layout = QVBoxLayout()
         advanced_layout.setContentsMargins(18, 18, 18, 18)
         advanced_layout.setSpacing(12)
+        advanced_layout.addWidget(self._create_page_title("Advanced"))
 
         self.advanced_info = QLabel("Reset all saved settings back to factory defaults.")
+        self.advanced_info.setObjectName("preferencesInfo")
         self.advanced_info.setWordWrap(True)
+        self.settings_file_label = QLabel(f"Settings file: {SETTINGS_FILE}")
+        self.settings_file_label.setObjectName("preferencesMeta")
+        self.settings_file_label.setWordWrap(True)
         self.button_reset_all = QPushButton("Reset All Settings")
         self.button_reset_all.setObjectName("dangerButton")
 
         advanced_layout.addWidget(self.advanced_info)
+        advanced_layout.addWidget(self.settings_file_label)
         advanced_layout.addWidget(self.button_reset_all)
         advanced_layout.addStretch()
         self.page_advanced.setLayout(advanced_layout)
@@ -149,6 +177,18 @@ class SettingsDialog(QDialog):
         self.button_save.clicked.connect(self.save_and_close)
         self.button_reset_all.clicked.connect(self.reset_all_settings)
         self.button_reset_window.clicked.connect(self.reset_window_size)
+        self.font_combo.currentTextChanged.connect(self._update_font_preview)
+
+    def _create_page_title(self, text: str) -> QLabel:
+        label = QLabel(text)
+        label.setObjectName("preferencesPageTitle")
+        return label
+
+    def _create_page_note(self, text: str) -> QLabel:
+        label = QLabel(text)
+        label.setObjectName("preferencesInfo")
+        label.setWordWrap(True)
+        return label
 
     def _create_nav_button(self, text: str, page_index: int) -> QPushButton:
         button = QPushButton(text)
@@ -165,10 +205,15 @@ class SettingsDialog(QDialog):
         if index >= 0:
             self.theme_combo.setCurrentIndex(index)
 
-        current_font = self.settings.get("appearance", "font_family", default="Segoe UI")
+        current_font = self.font_manager.resolve_family(
+            self.settings.get("appearance", "font_family", default=DEFAULT_FONT_FAMILY)
+        )
         index = self.font_combo.findText(current_font)
         if index >= 0:
             self.font_combo.setCurrentIndex(index)
+        self._update_font_preview(current_font)
+
+        self._refresh_window_size_label()
 
     def apply_settings(self) -> None:
         selected_theme = self.theme_combo.currentText()
@@ -207,7 +252,9 @@ class SettingsDialog(QDialog):
         if index >= 0:
             self.theme_combo.setCurrentIndex(index)
 
-        default_font = self.settings.get("appearance", "font_family", default="Segoe UI")
+        default_font = self.font_manager.resolve_family(
+            self.settings.get("appearance", "font_family", default=DEFAULT_FONT_FAMILY)
+        )
         index = self.font_combo.findText(default_font)
         if index >= 0:
             self.font_combo.setCurrentIndex(index)
@@ -224,6 +271,7 @@ class SettingsDialog(QDialog):
             )
 
         logger.info("All settings reset to defaults")
+        self._refresh_window_size_label()
 
     def reset_window_size(self) -> None:
         width = DEFAULT_SETTINGS["window"]["width"]
@@ -235,3 +283,12 @@ class SettingsDialog(QDialog):
             self.parent().resize(width, height)
 
         logger.info("Window size reset to defaults")
+        self._refresh_window_size_label()
+
+    def _refresh_window_size_label(self) -> None:
+        width = self.settings.get("window", "width", default=DEFAULT_SETTINGS["window"]["width"])
+        height = self.settings.get("window", "height", default=DEFAULT_SETTINGS["window"]["height"])
+        self.current_window_size.setText(f"Current saved size: {width} x {height}")
+
+    def _update_font_preview(self, family: str) -> None:
+        self.font_preview.setFont(QFont(family, 11))

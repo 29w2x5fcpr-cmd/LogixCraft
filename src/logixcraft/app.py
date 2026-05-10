@@ -11,13 +11,14 @@ from logixcraft.core.config import (
     LOGS_ROOT,
 )
 from logixcraft.core.error_handling import install_exception_hook, install_qt_message_handler
-from logixcraft.core.fonts import FontManager
+from logixcraft.core.fonts import DEFAULT_FONT_FAMILY, FontManager
 from logixcraft.core.logging_config import setup_logging
 from logixcraft.core.resources import require_file
 from logixcraft.core.settings import SettingsManager
-from logixcraft.core.startup_checks import run_startup_checks
+from logixcraft.core.startup_validation import run_startup_validation
 from logixcraft.core.theme import ThemeManager
 from logixcraft.ui.main_window import MainWindow
+from logixcraft.ui.splash_screen import SplashScreen
 
 
 def run() -> int:
@@ -36,16 +37,21 @@ def run() -> int:
     app.setApplicationName(APP_NAME)
     app.setApplicationVersion(APP_VERSION)
 
-    run_startup_checks()
+    splash = SplashScreen()
+    splash.show()
+    splash.show_status("Validating startup environment...")
+    run_startup_validation()
 
+    splash.show_status("Loading fonts...")
     font_manager = FontManager()
     font_manager.load_fonts()
-    font_family = settings.get("appearance", "font_family", default="Segoe UI")
+    font_family = settings.get("appearance", "font_family", default=DEFAULT_FONT_FAMILY)
     applied_font = font_manager.apply_font(app, font_family)
     if applied_font != font_family:
         settings.set("appearance", "font_family", value=applied_font)
 
     # Apply theme
+    splash.show_status("Applying theme...")
     theme_manager = ThemeManager()
     theme_name = settings.get("appearance", "theme", default="dark")
 
@@ -55,7 +61,9 @@ def run() -> int:
     app.setWindowIcon(QIcon(str(app_icon)))
 
     # Create main window
+    splash.show_status("Opening workspace...")
     window = MainWindow(settings=settings, font_manager=font_manager)
     window.show()
+    splash.finish(window.window)
 
     return app.exec()

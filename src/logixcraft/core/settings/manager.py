@@ -1,7 +1,9 @@
 import json
 import logging
 from copy import deepcopy
+from datetime import datetime
 from pathlib import Path
+from shutil import copy2
 from typing import Any
 
 from logixcraft.core.config import SETTINGS_FILE
@@ -33,6 +35,9 @@ class SettingsManager:
 
         except Exception as exc:
             logger.exception("Failed to load settings. Using defaults. Error: %s", exc)
+            backup_file = self._backup_corrupted_settings()
+            if backup_file is not None:
+                logger.warning("Backed up corrupted settings to %s", backup_file)
             self._settings = deepcopy(DEFAULT_SETTINGS)
             self.save()
 
@@ -83,3 +88,20 @@ class SettingsManager:
         self.set("window", "width", value=width)
         self.set("window", "height", value=height)
         self.save()
+
+    def _backup_corrupted_settings(self) -> Path | None:
+        if not self.settings_file.exists():
+            return None
+
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
+        backup_file = self.settings_file.with_name(
+            f"{self.settings_file.stem}.corrupt-{timestamp}{self.settings_file.suffix}"
+        )
+
+        try:
+            copy2(self.settings_file, backup_file)
+        except OSError as exc:
+            logger.exception("Could not back up corrupted settings file: %s", exc)
+            return None
+
+        return backup_file

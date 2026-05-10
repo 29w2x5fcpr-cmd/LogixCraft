@@ -1,8 +1,10 @@
 import logging
 
-from PySide6.QtGui import QAction
+from PySide6.QtCore import QUrl
+from PySide6.QtGui import QAction, QDesktopServices
 from PySide6.QtWidgets import QApplication, QMenu
 
+from logixcraft.core.config import LOGS_ROOT
 from logixcraft.core.safe_call import run_safely
 from logixcraft.core.theme import ThemeManager
 from logixcraft.ui.dialog_manager import DialogManager
@@ -24,6 +26,10 @@ class MenuActionController:
 
         self.action_preferences = self._find_preferences_action()
         self.action_terminal = self._require_action("actionTerminal")
+        self.action_open_logs_folder = self._find_or_create_developer_action(
+            object_name="actionOpenLogsFolder",
+            text="Open Logs Folder",
+        )
         self.action_license = self._require_action("actionLicense")
         self.action_software = self._require_action("actionSoftware")
 
@@ -33,6 +39,20 @@ class MenuActionController:
         action = self.window.findChild(QAction, object_name)
         if action is None:
             raise RuntimeError(f"Could not find QAction '{object_name}'")
+        return action
+
+    def _find_or_create_developer_action(self, object_name: str, text: str) -> QAction:
+        action = self.window.findChild(QAction, object_name)
+        if action is not None:
+            return action
+
+        menu_developer = self.window.findChild(QMenu, "menuDeveloper")
+        if menu_developer is None:
+            raise RuntimeError("Could not find QMenu 'menuDeveloper'")
+
+        action = QAction(text, self.window)
+        action.setObjectName(object_name)
+        menu_developer.addAction(action)
         return action
 
     def _find_preferences_action(self) -> QAction:
@@ -88,6 +108,9 @@ class MenuActionController:
         self.action_terminal.triggered.connect(
             lambda: run_safely("Open Terminal", self.open_terminal_dialog)
         )
+        self.action_open_logs_folder.triggered.connect(
+            lambda: run_safely("Open Logs Folder", self.open_logs_folder)
+        )
         self.action_license.triggered.connect(
             lambda: run_safely("Open License", self.open_license_dialog)
         )
@@ -117,6 +140,10 @@ class MenuActionController:
 
     def open_terminal_dialog(self) -> None:
         self.dialog_manager.show_single("terminal", TerminalDialog)
+
+    def open_logs_folder(self) -> None:
+        LOGS_ROOT.mkdir(parents=True, exist_ok=True)
+        QDesktopServices.openUrl(QUrl.fromLocalFile(str(LOGS_ROOT)))
 
     def open_license_dialog(self) -> None:
         self.dialog_manager.show_single("license", LicenseDialog)

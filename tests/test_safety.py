@@ -5,6 +5,7 @@ import pytest
 from logixcraft.core.resources import ResourceError, require_file
 from logixcraft.core.safe_call import run_safely
 from logixcraft.core.startup_checks import run_startup_checks
+from logixcraft.core.startup_validation import StartupValidationReport, validate_startup
 from logixcraft.ui.ui_loader import load_ui_file
 
 
@@ -29,6 +30,24 @@ def test_safe_call_returns_none_on_failure() -> None:
 
 def test_startup_checks_pass_for_current_project() -> None:
     run_startup_checks()
+
+
+def test_startup_validation_report_passes_for_current_project() -> None:
+    report = validate_startup()
+
+    assert report.passed
+    assert not report.errors
+
+
+def test_startup_validation_report_formats_errors_and_warnings() -> None:
+    report = StartupValidationReport(errors=["fatal"], warnings=["degraded"])
+
+    formatted = report.format()
+
+    assert "Errors:" in formatted
+    assert "fatal" in formatted
+    assert "Warnings:" in formatted
+    assert "degraded" in formatted
 
 
 def test_load_ui_file_rejects_missing_file(tmp_path) -> None:

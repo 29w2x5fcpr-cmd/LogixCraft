@@ -147,6 +147,34 @@ def build_stylesheet(theme: dict) -> str:
         background-color: transparent;
     }}
 
+    QLabel#preferencesPageTitle {{
+        color: {color["text_primary"]};
+        font-size: 16px;
+        font-weight: 700;
+        background-color: transparent;
+    }}
+
+    QLabel#preferencesInfo {{
+        color: {color["text_secondary"]};
+        background-color: transparent;
+    }}
+
+    QLabel#preferencesMeta {{
+        color: {color["text_secondary"]};
+        background-color: {color["panel_bg"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+        padding: 8px 10px;
+    }}
+
+    QLabel#preferencesFontPreview {{
+        color: {color["text_primary"]};
+        background-color: {color["panel_bg"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+        padding: 12px;
+    }}
+
     QFrame#preferencesSidebar {{
         background-color: {color["panel_bg"]};
         border: 1px solid {color["border"]};
@@ -275,9 +303,20 @@ def build_stylesheet(theme: dict) -> str:
         color: {color["text_primary"]};
     }}
 
+    QFrame#errorHeader {{
+        background-color: {color["panel_bg"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+    }}
+
+    QLabel#errorIcon {{
+        background-color: transparent;
+        border: none;
+    }}
+
     QLabel#errorTitle {{
         color: {color["text_primary"]};
-        font-size: {font["preferences_title_size"]};
+        font-size: 15px;
         font-weight: 700;
         background-color: transparent;
     }}
@@ -287,11 +326,41 @@ def build_stylesheet(theme: dict) -> str:
         background-color: transparent;
     }}
 
+    QFrame#errorSummary {{
+        background-color: {color["content_bg"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+    }}
+
+    QLabel#errorSummaryKey {{
+        color: {color["text_secondary"]};
+        font-weight: 600;
+        background-color: transparent;
+    }}
+
+    QLabel#errorSummaryValue {{
+        color: {color["text_primary"]};
+        background-color: transparent;
+    }}
+
     QTextEdit#errorDetails {{
         background-color: {color["panel_bg_emphasis"]};
         color: {color["text_primary"]};
         border: 1px solid {color["border"]};
         border-radius: {radius["button"]};
         padding: 10px;
+    }}
+
+    QPushButton#errorDetailsButton {{
+        background-color: transparent;
+        color: {color["text_secondary"]};
+        border: none;
+        padding: 4px 6px;
+    }}
+
+    QPushButton#errorDetailsButton:hover {{
+        color: {color["text_primary"]};
+        background-color: {color["button_hover_bg"]};
+        border-radius: {radius["button"]};
     }}
     """
