@@ -95,7 +95,7 @@ def build_stylesheet(theme: dict) -> str:
         color: {color["text_primary"]};
         border: none;
     }}    
-    QPushButton#btnPLC {{
+    QPushButton[navButton="true"] {{
         background-color: {color["nav_button_bg"]};
         color: {color["nav_button_text"]};
         border: none;
@@ -109,15 +109,15 @@ def build_stylesheet(theme: dict) -> str:
         border-radius: {radius["pill"]};
     }}
 
-    QPushButton#btnPLC:hover {{
+    QPushButton[navButton="true"]:hover {{
         background-color: {color["nav_button_hover_bg"]};
     }}
 
-    QPushButton#btnPLC:pressed {{
+    QPushButton[navButton="true"]:pressed {{
         background-color: {color["nav_button_pressed_bg"]};
     }}
 
-    QPushButton#btnPLC[active="true"] {{
+    QPushButton[navButton="true"][active="true"] {{
         background-color: {color["nav_button_active_bg"]};
         color: {color["nav_button_active_text"]};
         border-radius: {radius["pill"]};
@@ -128,6 +128,10 @@ def build_stylesheet(theme: dict) -> str:
         border-radius: {radius["navbar"]};
         min-height: {size["navbar_height"]};
         max-height: {size["navbar_height"]};
+    }}
+
+    QFrame#navBarFrame[expanded="false"] {{
+        background-color: {color["panel_bg_emphasis"]};
     }}
 
     QDialog#preferencesDialog {{
