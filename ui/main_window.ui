@@ -259,7 +259,7 @@
               </sizepolicy>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_main_home">
               <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -332,22 +332,7 @@
                   </item>
                   <item>
                    <widget class="QWidget" name="bottom_widget" native="true">
-                    <layout class="QHBoxLayout" name="horizontalLayout">
-                     <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignBottom">
-                      <widget class="QLabel" name="homeAuthor">
-                       <property name="text">
-                        <string>Jakub H. Rembisz</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item alignment="Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignBottom">
-                      <widget class="QLabel" name="homeAppVersion">
-                       <property name="text">
-                        <string>App Version</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    <layout class="QHBoxLayout" name="horizontalLayout"/>
                    </widget>
                   </item>
                  </layout>
@@ -394,15 +379,7 @@
      <string>About</string>
     </property>
     <addaction name="actionLicense"/>
-    <addaction name="actionSoftware"/>
    </widget>
-   <widget class="QMenu" name="menuCommissioning">
-    <property name="title">
-     <string>Commissioning</string>
-    </property>
-    <addaction name="actionDatabase"/>
-   </widget>
-   <addaction name="menuCommissioning"/>
    <addaction name="menuSettings"/>
    <addaction name="menuDeveloper"/>
    <addaction name="menuAbout"/>

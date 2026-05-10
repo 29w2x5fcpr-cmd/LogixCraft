@@ -36,8 +36,6 @@ def build_window_with_menus() -> QMainWindow:
     menu_about.setObjectName("menuAbout")
     action_license = menu_about.addAction("License")
     action_license.setObjectName("actionLicense")
-    action_software = menu_about.addAction("Software")
-    action_software.setObjectName("actionSoftware")
     menu_bar.addMenu(menu_about)
 
     return window
@@ -56,6 +54,24 @@ def test_menu_actions_adds_open_logs_folder_action() -> None:
 
     assert controller.action_open_logs_folder.objectName() == "actionOpenLogsFolder"
     assert controller.action_open_logs_folder.text() == "Open Logs Folder"
+    assert app is not None
+
+
+def test_menu_actions_adds_help_and_about_actions() -> None:
+    app = QApplication.instance() or QApplication(sys.argv)
+    window = build_window_with_menus()
+
+    controller = MenuActionController(
+        window=window,
+        settings=FakeSettings(),
+        font_manager=FakeFontManager(),
+        dialog_manager=DialogManager(parent=window),
+    )
+
+    assert controller.action_help_viewer.objectName() == "actionHelpViewer"
+    assert controller.action_help_viewer.text() == "Help Viewer"
+    assert controller.action_about.objectName() == "actionAbout"
+    assert controller.action_about.text() == "About LogixCraft"
     assert app is not None
 
 

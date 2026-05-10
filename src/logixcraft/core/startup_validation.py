@@ -146,7 +146,6 @@ def _validate_ui(report: StartupValidationReport) -> None:
         "sidebarStack",
         "actionTerminal",
         "actionLicense",
-        "actionSoftware",
         "actionPreferences",
     }
 

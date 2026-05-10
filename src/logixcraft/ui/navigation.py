@@ -1,7 +1,7 @@
 import logging
 from functools import partial
 
-from PySide6.QtWidgets import QPushButton, QStackedWidget, QStatusBar, QWidget
+from PySide6.QtWidgets import QFrame, QPushButton, QStackedWidget, QStatusBar, QWidget
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +15,7 @@ class NavigationController:
         self.btn_plc = self._require_child(QPushButton, "btnPLC")
 
         self.sidebar_stack = self._require_child(QStackedWidget, "sidebarStack")
+        self.sidebar_container = self._require_child(QFrame, "sidebarContainer")
         self.main_stack = self._require_child(QStackedWidget, "mainStack")
 
         self.nav_config = {
@@ -33,6 +34,8 @@ class NavigationController:
         }
 
         self.connect_navigation()
+        self.main_stack.currentChanged.connect(self.update_sidebar_visibility)
+        self.update_sidebar_visibility()
 
     def _require_child(self, widget_type, object_name: str):
         child = self.window.findChild(widget_type, object_name)
@@ -66,6 +69,7 @@ class NavigationController:
 
         self.sidebar_stack.setCurrentWidget(item["sidebar_page"])
         self.main_stack.setCurrentWidget(item["main_page"])
+        self.update_sidebar_visibility()
 
         if item.get("active", True):
             self.set_active_button(item["button"])
@@ -76,3 +80,7 @@ class NavigationController:
             self.status_bar.showMessage(f"Opened {key}", 3000)
 
         logger.info("Opened %s page", key)
+
+    def update_sidebar_visibility(self, _index: int | None = None) -> None:
+        home_page = self.nav_config["home"]["main_page"]
+        self.sidebar_container.setVisible(self.main_stack.currentWidget() is not home_page)

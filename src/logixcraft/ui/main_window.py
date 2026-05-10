@@ -47,9 +47,6 @@ class MainWindow(QObject):
 
         self.homeImage = self.window.findChild(QLabel, "homeImage")
         self.homeTitle = self.window.findChild(QLabel, "homeTitle")
-        self.homeAppVersion = self.window.findChild(QLabel, "homeAppVersion")
-
-        self.homeAppVersion.setText(f"v{APP_VERSION}")
 
         self.btnHome = self.window.findChild(QPushButton, "btnHome")
         self.btnPLC = self.window.findChild(QPushButton, "btnPLC")

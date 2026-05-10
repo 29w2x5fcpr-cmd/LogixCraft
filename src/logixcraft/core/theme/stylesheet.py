@@ -260,42 +260,101 @@ def build_stylesheet(theme: dict) -> str:
         selection-background-color: {color["button_active_bg"]};
     }}
 
-    QDialog#softwareDialog {{
+    QDialog#aboutDialog {{
         background-color: {color["app_bg"]};
         color: {color["text_primary"]};
     }}
 
-    QLabel#softwareLogo {{
+    QLabel#aboutLogo {{
         background-color: transparent;
     }}
 
-    QLabel#softwareTitle {{
+    QLabel#aboutTitle {{
         color: {color["text_primary"]};
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 700;
         background-color: transparent;
     }}
 
-    QLabel#softwareSubtitle {{
+    QLabel#aboutSubtitle {{
         color: {color["text_secondary"]};
         background-color: transparent;
     }}
 
-    QFrame#softwareInfoFrame {{
+    QFrame#aboutInfoFrame {{
         background-color: {color["panel_bg"]};
         border: 1px solid {color["border"]};
         border-radius: {radius["button"]};
     }}
 
-    QLabel#softwareInfoKey {{
+    QLabel#aboutInfoKey {{
         color: {color["text_secondary"]};
         font-weight: 600;
         background-color: transparent;
     }}
 
-    QLabel#softwareInfoValue {{
+    QLabel#aboutInfoValue {{
         color: {color["text_primary"]};
         background-color: transparent;
+    }}
+
+    QDialog#helpViewerDialog {{
+        background-color: {color["app_bg"]};
+        color: {color["text_primary"]};
+    }}
+
+    QLabel#helpTitle {{
+        color: {color["text_primary"]};
+        font-size: {font["preferences_title_size"]};
+        font-weight: 700;
+        background-color: transparent;
+    }}
+
+    QLabel#helpSubtitle {{
+        color: {color["text_secondary"]};
+        background-color: transparent;
+    }}
+
+    QLineEdit#helpSearch {{
+        background-color: {color["panel_bg"]};
+        color: {color["text_secondary"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+        padding: 8px 10px;
+    }}
+
+    QFrame#helpContentFrame {{
+        background-color: {color["panel_bg"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+    }}
+
+    QListWidget#helpTopicList {{
+        background-color: {color["content_bg"]};
+        color: {color["text_primary"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+        padding: 6px;
+    }}
+
+    QListWidget#helpTopicList::item {{
+        min-height: 28px;
+        padding: 4px 8px;
+        border-radius: {radius["button"]};
+    }}
+
+    QListWidget#helpTopicList::item:selected {{
+        background-color: {color["button_active_bg"]};
+        color: {color["text_primary"]};
+    }}
+
+    QTextEdit#helpContent {{
+        background-color: {color["content_bg"]};
+        color: {color["text_primary"]};
+        border: 1px solid {color["border"]};
+        border-radius: {radius["button"]};
+        padding: 12px;
+        selection-background-color: {color["button_active_bg"]};
     }}
 
     QDialog#errorDialog {{

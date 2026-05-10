@@ -7,10 +7,11 @@ from PySide6.QtWidgets import QApplication, QMenu
 from logixcraft.core.config import LOGS_ROOT
 from logixcraft.core.safe_call import run_safely
 from logixcraft.core.theme import ThemeManager
+from logixcraft.ui.about_dialog import AboutDialog
 from logixcraft.ui.dialog_manager import DialogManager
+from logixcraft.ui.help_viewer_dialog import HelpViewerDialog
 from logixcraft.ui.license_dialog import LicenseDialog
 from logixcraft.ui.settings_dialog import SettingsDialog
-from logixcraft.ui.software_dialog import SoftwareDialog
 from logixcraft.ui.terminal_dialog import TerminalDialog
 
 logger = logging.getLogger(__name__)
@@ -31,7 +32,16 @@ class MenuActionController:
             text="Open Logs Folder",
         )
         self.action_license = self._require_action("actionLicense")
-        self.action_software = self._require_action("actionSoftware")
+        self.action_help_viewer = self._find_or_create_menu_action(
+            menu_object_name="menuAbout",
+            object_name="actionHelpViewer",
+            text="Help Viewer",
+        )
+        self.action_about = self._find_or_create_menu_action(
+            menu_object_name="menuAbout",
+            object_name="actionAbout",
+            text="About LogixCraft",
+        )
 
         self.connect_actions()
 
@@ -42,17 +52,22 @@ class MenuActionController:
         return action
 
     def _find_or_create_developer_action(self, object_name: str, text: str) -> QAction:
+        return self._find_or_create_menu_action("menuDeveloper", object_name, text)
+
+    def _find_or_create_menu_action(
+        self, menu_object_name: str, object_name: str, text: str
+    ) -> QAction:
         action = self.window.findChild(QAction, object_name)
         if action is not None:
             return action
 
-        menu_developer = self.window.findChild(QMenu, "menuDeveloper")
-        if menu_developer is None:
-            raise RuntimeError("Could not find QMenu 'menuDeveloper'")
+        menu = self.window.findChild(QMenu, menu_object_name)
+        if menu is None:
+            raise RuntimeError(f"Could not find QMenu '{menu_object_name}'")
 
         action = QAction(text, self.window)
         action.setObjectName(object_name)
-        menu_developer.addAction(action)
+        menu.addAction(action)
         return action
 
     def _find_preferences_action(self) -> QAction:
@@ -114,8 +129,11 @@ class MenuActionController:
         self.action_license.triggered.connect(
             lambda: run_safely("Open License", self.open_license_dialog)
         )
-        self.action_software.triggered.connect(
-            lambda: run_safely("Open Software Information", self.open_software_dialog)
+        self.action_help_viewer.triggered.connect(
+            lambda: run_safely("Open Help Viewer", self.open_help_viewer_dialog)
+        )
+        self.action_about.triggered.connect(
+            lambda: run_safely("Open About", self.open_about_dialog)
         )
 
     def open_settings_dialog(self) -> None:
@@ -148,5 +166,8 @@ class MenuActionController:
     def open_license_dialog(self) -> None:
         self.dialog_manager.show_single("license", LicenseDialog)
 
-    def open_software_dialog(self) -> None:
-        self.dialog_manager.show_single("software", SoftwareDialog)
+    def open_help_viewer_dialog(self) -> None:
+        self.dialog_manager.show_single("help_viewer", HelpViewerDialog)
+
+    def open_about_dialog(self) -> None:
+        self.dialog_manager.show_single("about", AboutDialog)
