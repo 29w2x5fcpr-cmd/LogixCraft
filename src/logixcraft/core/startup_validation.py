@@ -129,6 +129,16 @@ def _validate_assets(report: StartupValidationReport) -> None:
 
     _check_required_file(report, ICONS_ROOT / "app" / "logo.png", "application logo")
     _check_required_file(report, ICONS_ROOT / "app" / "logo_symbol.png", "application icon")
+    _check_required_file(
+        report,
+        ICONS_ROOT / "nav_buttons" / "arrow-autofit-right.svg",
+        "navbar expand icon",
+    )
+    _check_required_file(
+        report,
+        ICONS_ROOT / "nav_buttons" / "arrow-autofit-left.svg",
+        "navbar collapse icon",
+    )
 
     if FONTS_ROOT.is_dir() and not any(FONTS_ROOT.rglob("*.ttf")):
         report.add_warning("No bundled TrueType fonts were found.")

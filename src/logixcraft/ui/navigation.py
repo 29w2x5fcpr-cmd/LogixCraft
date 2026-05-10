@@ -1,7 +1,8 @@
 import logging
 from functools import partial
 
-from PySide6.QtCore import QEasingCurve, QParallelAnimationGroup, QPropertyAnimation
+from PySide6.QtCore import QEasingCurve, QParallelAnimationGroup, QPropertyAnimation, QSize
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QFrame,
     QGraphicsOpacityEffect,
@@ -11,9 +12,13 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from logixcraft.core.config import NAV_BUTTONS
+from logixcraft.core.resources import require_file
+
 logger = logging.getLogger(__name__)
 
 NAVBAR_ANIMATION_MS = 360
+NAVBAR_TOGGLE_ICON_SIZE = QSize(25, 25)
 
 
 class NavigationController:
@@ -31,6 +36,12 @@ class NavigationController:
         self.nav_buttons: list[QPushButton] = []
         self.navbar_expanded = False
         self._navbar_animation: QParallelAnimationGroup | None = None
+        self.icon_expand = QIcon(
+            str(require_file(NAV_BUTTONS / "arrow-autofit-right.svg", "navbar expand icon"))
+        )
+        self.icon_collapse = QIcon(
+            str(require_file(NAV_BUTTONS / "arrow-autofit-left.svg", "navbar collapse icon"))
+        )
 
         self.nav_config = {
             "home": {
@@ -88,6 +99,7 @@ class NavigationController:
     def set_navbar_expanded(self, expanded: bool, animated: bool = True) -> None:
         self.navbar_expanded = expanded
         self.nav_bar_frame.setProperty("expanded", expanded)
+        self._update_home_toggle_icon()
 
         collapsed_width = self._collapsed_navbar_width()
         expanded_width = self._expanded_navbar_width()
@@ -136,6 +148,11 @@ class NavigationController:
         self.nav_bar_frame.style().unpolish(self.nav_bar_frame)
         self.nav_bar_frame.style().polish(self.nav_bar_frame)
         self.nav_bar_frame.update()
+
+    def _update_home_toggle_icon(self) -> None:
+        self.btn_home.setText("")
+        self.btn_home.setIcon(self.icon_collapse if self.navbar_expanded else self.icon_expand)
+        self.btn_home.setIconSize(NAVBAR_TOGGLE_ICON_SIZE)
 
     def _collapsed_navbar_width(self) -> int:
         layout = self.nav_bar_frame.layout()

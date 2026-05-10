@@ -57,6 +57,21 @@ def test_menu_actions_adds_open_logs_folder_action() -> None:
     assert app is not None
 
 
+def test_menu_actions_keeps_settings_menu_text() -> None:
+    app = QApplication.instance() or QApplication(sys.argv)
+    window = build_window_with_menus()
+
+    controller = MenuActionController(
+        window=window,
+        settings=FakeSettings(),
+        font_manager=FakeFontManager(),
+        dialog_manager=DialogManager(parent=window),
+    )
+
+    assert controller.menu_settings.title() == "Settings"
+    assert app is not None
+
+
 def test_menu_actions_adds_help_and_about_actions() -> None:
     app = QApplication.instance() or QApplication(sys.argv)
     window = build_window_with_menus()

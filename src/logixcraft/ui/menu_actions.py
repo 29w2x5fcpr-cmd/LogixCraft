@@ -25,6 +25,9 @@ class MenuActionController:
         self.dialog_manager = dialog_manager
         self.theme_manager = ThemeManager()
 
+        self.menu_settings = self._require_menu("menuSettings")
+        self.menu_settings.setTitle("Settings")
+
         self.action_preferences = self._find_preferences_action()
         self.action_terminal = self._require_action("actionTerminal")
         self.action_open_logs_folder = self._find_or_create_developer_action(
@@ -51,6 +54,12 @@ class MenuActionController:
             raise RuntimeError(f"Could not find QAction '{object_name}'")
         return action
 
+    def _require_menu(self, object_name: str) -> QMenu:
+        menu = self.window.findChild(QMenu, object_name)
+        if menu is None:
+            raise RuntimeError(f"Could not find QMenu '{object_name}'")
+        return menu
+
     def _find_or_create_developer_action(self, object_name: str, text: str) -> QAction:
         return self._find_or_create_menu_action("menuDeveloper", object_name, text)
 
@@ -71,19 +80,15 @@ class MenuActionController:
         return action
 
     def _find_preferences_action(self) -> QAction:
-        menu_settings = self.window.findChild(QMenu, "menuSettings")
-        if menu_settings is None:
-            raise RuntimeError("Could not find QMenu 'menuSettings'")
-
         logger.info(
             "menuSettings actions: %s",
-            [(action.objectName(), action.text()) for action in menu_settings.actions()],
+            [(action.objectName(), action.text()) for action in self.menu_settings.actions()],
         )
 
         action = next(
             (
                 menu_action
-                for menu_action in menu_settings.actions()
+                for menu_action in self.menu_settings.actions()
                 if menu_action.objectName() == "actionPreferences"
             ),
             None,

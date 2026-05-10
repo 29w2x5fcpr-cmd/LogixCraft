@@ -1,7 +1,7 @@
 import logging
 
-from PySide6.QtCore import QEvent, QObject, QSize, Qt
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtCore import QEvent, QObject, Qt
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QFrame,
     QLabel,
@@ -64,14 +64,7 @@ class MainWindow(QObject):
             dialog_manager=self.dialog_manager,
         )
         image_path = require_file(ASSETS_ROOT / "icons" / "app" / "logo.png", "home logo")
-        icon_path = require_file(
-            ASSETS_ROOT / "icons" / "app" / "logo_symbol.png",
-            "home navigation icon",
-        )
 
-        self.btnHome.setText("")
-        self.btnHome.setIcon(QIcon(str(icon_path)))
-        self.btnHome.setIconSize(QSize(25, 25))
         pixmap = QPixmap(str(image_path))
         self.homeImage.setPixmap(
             pixmap.scaled(600, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)

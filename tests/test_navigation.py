@@ -92,6 +92,26 @@ def test_navbar_buttons_share_nav_button_style_marker() -> None:
     assert app is not None
 
 
+def test_home_button_icon_tracks_navbar_state() -> None:
+    app = QApplication.instance() or QApplication(sys.argv)
+    window = build_navigation_window()
+
+    navigation = NavigationController(window=window)
+    collapsed_icon_key = navigation.btn_home.icon().cacheKey()
+
+    assert not navigation.btn_home.icon().isNull()
+
+    navigation.btn_home.click()
+    expanded_icon_key = navigation.btn_home.icon().cacheKey()
+
+    assert expanded_icon_key != collapsed_icon_key
+
+    navigation.btn_home.click()
+
+    assert navigation.btn_home.icon().cacheKey() == collapsed_icon_key
+    assert app is not None
+
+
 def test_home_button_toggles_navbar_buttons() -> None:
     app = QApplication.instance() or QApplication(sys.argv)
     window = build_navigation_window()
