@@ -28,23 +28,12 @@ class MenuActionController:
         self.menu_settings = self._require_menu("menuSettings")
         self.menu_settings.setTitle("Settings")
 
-        self.action_preferences = self._find_preferences_action()
+        self.action_preferences = self._require_action("actionPreferences")
         self.action_terminal = self._require_action("actionTerminal")
-        self.action_open_logs_folder = self._find_or_create_developer_action(
-            object_name="actionOpenLogsFolder",
-            text="Open Logs Folder",
-        )
+        self.action_open_logs_folder = self._require_action("actionOpen_Logs_Folder")
         self.action_license = self._require_action("actionLicense")
-        self.action_help_viewer = self._find_or_create_menu_action(
-            menu_object_name="menuAbout",
-            object_name="actionHelpViewer",
-            text="Help Viewer",
-        )
-        self.action_about = self._find_or_create_menu_action(
-            menu_object_name="menuAbout",
-            object_name="actionAbout",
-            text="About LogixCraft",
-        )
+        self.action_help_viewer = self._require_action("actionHelp_Viewer")
+        self.action_about = self._require_action("actionAbout_LogixCraft")
 
         self.connect_actions()
 
@@ -59,67 +48,6 @@ class MenuActionController:
         if menu is None:
             raise RuntimeError(f"Could not find QMenu '{object_name}'")
         return menu
-
-    def _find_or_create_developer_action(self, object_name: str, text: str) -> QAction:
-        return self._find_or_create_menu_action("menuDeveloper", object_name, text)
-
-    def _find_or_create_menu_action(
-        self, menu_object_name: str, object_name: str, text: str
-    ) -> QAction:
-        action = self.window.findChild(QAction, object_name)
-        if action is not None:
-            return action
-
-        menu = self.window.findChild(QMenu, menu_object_name)
-        if menu is None:
-            raise RuntimeError(f"Could not find QMenu '{menu_object_name}'")
-
-        action = QAction(text, self.window)
-        action.setObjectName(object_name)
-        menu.addAction(action)
-        return action
-
-    def _find_preferences_action(self) -> QAction:
-        logger.info(
-            "menuSettings actions: %s",
-            [(action.objectName(), action.text()) for action in self.menu_settings.actions()],
-        )
-
-        action = next(
-            (
-                menu_action
-                for menu_action in self.menu_settings.actions()
-                if menu_action.objectName() == "actionPreferences"
-            ),
-            None,
-        )
-
-        if action is not None:
-            return action
-
-        all_actions = self.window.findChildren(QAction)
-        logger.info(
-            "all window actions: %s",
-            [(window_action.objectName(), window_action.text()) for window_action in all_actions],
-        )
-
-        action = next(
-            (
-                window_action
-                for window_action in all_actions
-                if window_action.objectName() == "actionPreferences"
-                or window_action.text().replace("&", "") == "Preferences"
-            ),
-            None,
-        )
-
-        if action is None:
-            raise RuntimeError(
-                "Could not find QAction 'actionPreferences'. "
-                "Check the QAction objectName in Qt Designer."
-            )
-
-        return action
 
     def connect_actions(self) -> None:
         self.action_preferences.triggered.connect(

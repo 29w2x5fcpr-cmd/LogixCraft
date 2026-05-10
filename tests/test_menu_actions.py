@@ -30,18 +30,26 @@ def build_window_with_menus() -> QMainWindow:
     menu_developer.setObjectName("menuDeveloper")
     action_terminal = menu_developer.addAction("Terminal")
     action_terminal.setObjectName("actionTerminal")
+    action_update = menu_developer.addAction("Update")
+    action_update.setObjectName("actionUpdate")
+    action_open_logs_folder = menu_developer.addAction("Open Logs Folder")
+    action_open_logs_folder.setObjectName("actionOpen_Logs_Folder")
     menu_bar.addMenu(menu_developer)
 
     menu_about = QMenu("About", window)
     menu_about.setObjectName("menuAbout")
     action_license = menu_about.addAction("License")
     action_license.setObjectName("actionLicense")
+    action_help_viewer = menu_about.addAction("Help Viewer")
+    action_help_viewer.setObjectName("actionHelp_Viewer")
+    action_about = menu_about.addAction("About LogixCraft")
+    action_about.setObjectName("actionAbout_LogixCraft")
     menu_bar.addMenu(menu_about)
 
     return window
 
 
-def test_menu_actions_adds_open_logs_folder_action() -> None:
+def test_menu_actions_uses_ui_open_logs_folder_action() -> None:
     app = QApplication.instance() or QApplication(sys.argv)
     window = build_window_with_menus()
 
@@ -52,7 +60,7 @@ def test_menu_actions_adds_open_logs_folder_action() -> None:
         dialog_manager=DialogManager(parent=window),
     )
 
-    assert controller.action_open_logs_folder.objectName() == "actionOpenLogsFolder"
+    assert controller.action_open_logs_folder.objectName() == "actionOpen_Logs_Folder"
     assert controller.action_open_logs_folder.text() == "Open Logs Folder"
     assert app is not None
 
@@ -72,7 +80,7 @@ def test_menu_actions_keeps_settings_menu_text() -> None:
     assert app is not None
 
 
-def test_menu_actions_adds_help_and_about_actions() -> None:
+def test_menu_actions_uses_ui_help_and_about_actions() -> None:
     app = QApplication.instance() or QApplication(sys.argv)
     window = build_window_with_menus()
 
@@ -83,9 +91,9 @@ def test_menu_actions_adds_help_and_about_actions() -> None:
         dialog_manager=DialogManager(parent=window),
     )
 
-    assert controller.action_help_viewer.objectName() == "actionHelpViewer"
+    assert controller.action_help_viewer.objectName() == "actionHelp_Viewer"
     assert controller.action_help_viewer.text() == "Help Viewer"
-    assert controller.action_about.objectName() == "actionAbout"
+    assert controller.action_about.objectName() == "actionAbout_LogixCraft"
     assert controller.action_about.text() == "About LogixCraft"
     assert app is not None
 

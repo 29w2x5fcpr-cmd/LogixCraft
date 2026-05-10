@@ -155,7 +155,10 @@ def _validate_ui(report: StartupValidationReport) -> None:
         "mainStack",
         "sidebarStack",
         "actionTerminal",
+        "actionOpen_Logs_Folder",
         "actionLicense",
+        "actionHelp_Viewer",
+        "actionAbout_LogixCraft",
         "actionPreferences",
     }
 

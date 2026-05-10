@@ -387,12 +387,15 @@
     </property>
     <addaction name="actionTerminal"/>
     <addaction name="actionUpdate"/>
+    <addaction name="actionOpen_Logs_Folder"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>About</string>
     </property>
     <addaction name="actionLicense"/>
+    <addaction name="actionHelp_Viewer"/>
+    <addaction name="actionAbout_LogixCraft"/>
    </widget>
    <addaction name="menuSettings"/>
    <addaction name="menuDeveloper"/>
@@ -448,6 +451,21 @@
   <action name="actionUpdate">
    <property name="text">
     <string>Update</string>
+   </property>
+  </action>
+  <action name="actionOpen_Logs_Folder">
+   <property name="text">
+    <string>Open Logs Folder</string>
+   </property>
+  </action>
+  <action name="actionHelp_Viewer">
+   <property name="text">
+    <string>Help Viewer</string>
+   </property>
+  </action>
+  <action name="actionAbout_LogixCraft">
+   <property name="text">
+    <string>About LogixCraft</string>
    </property>
   </action>
  </widget>
